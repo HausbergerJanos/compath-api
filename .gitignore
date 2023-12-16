@@ -46,7 +46,7 @@ typings/
 .eslintcache
 
 # dotenv environment variables file
-.env
+*.env
 .env.test
 
 # next.js build output

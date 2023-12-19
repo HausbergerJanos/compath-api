@@ -1,8 +1,6 @@
-const catchAsync = require('../utils/catchAsync');
+const Project = require('../models/projectModel');
+//const catchAsync = require('../utils/catchAsync');
+const factory = require('./handlerFactory');
 
-exports.getAllProjects = catchAsync(async (req, res, next) => {
-  res.status(200).json({
-    status: 'success',
-    message: 'Welcome in the API!',
-  });
-});
+exports.getAllProjects = factory.getAll(Project);
+exports.createProject = factory.createOne(Project);

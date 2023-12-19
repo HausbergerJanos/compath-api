@@ -18,6 +18,8 @@ exports.deleteOne = (Model) =>
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
+    console.log('Update called');
+    console.log(req.body);
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -41,9 +43,7 @@ exports.createOne = (Model) =>
 
     res.status(201).json({
       status: 'success',
-      data: {
-        data: doc,
-      },
+      data: doc,
     });
   });
 
@@ -58,19 +58,21 @@ exports.getOne = (Model, popOptions) =>
       return next(new AppError('No document found with that id', 404));
     }
 
+    // CREATE RESPONSE KEY
+    const responseKey = Model.collection.collectionName;
+
     res.status(200).json({
       status: 'success',
       data: {
-        data: doc,
+        [responseKey]: doc,
       },
     });
   });
 
-exports.getAll = (Model) =>
+exports.getAll = (Model, filterFunction = (req) => ({})) =>
   catchAsync(async (req, res, next) => {
-    // To allow for nested GET reviews on tour (hack)
-    let filter = {};
-    if (req.params.tourId) filter = { tour: req.params.tourId };
+    // To allow for nested GET
+    const filter = { ...filterFunction(req) };
 
     // EXECUTE QUERY
     const features = new APIFeatures(Model.find(filter), req.query)
@@ -80,10 +82,15 @@ exports.getAll = (Model) =>
       .paginate();
     const docs = await features.query;
 
+    // CREATE RESPONSE KEY
+    const responseKey = Model.collection.collectionName;
+
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',
       results: docs.length,
-      data: docs,
+      data: {
+        [responseKey]: docs,
+      },
     });
   });

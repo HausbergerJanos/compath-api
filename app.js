@@ -9,6 +9,7 @@ const hpp = require('hpp');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const projectRouter = require('./routes/projectRoutes');
+const deeplinkRouter = require('./routes/deeplinkRoutes');
 
 const app = express();
 
@@ -58,6 +59,7 @@ app.use((req, res, next) => {
 
 // 2) ROUTES
 app.use('/api/v1/projects', projectRouter);
+app.use('/api/v1/deeplinks', deeplinkRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl}`, 404));

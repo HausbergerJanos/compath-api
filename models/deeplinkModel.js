@@ -15,6 +15,25 @@ const deeplinkSchema = new mongoose.Schema(
         'A deeplink alias must have more or equal then 3 characters',
       ],
     },
+    title: {
+      type: String,
+      required: [true, 'A deeplink must have a title!'],
+      maxlength: [
+        40,
+        'A deeplink title must have less or equal then 40 characters',
+      ],
+      minlength: [
+        3,
+        'A deeplink title must have more or equal then 3 characters',
+      ],
+    },
+    description: {
+      type: String,
+      maxlength: [
+        160,
+        'A deeplink description must have less or equal then 160 characters',
+      ],
+    },
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -39,6 +58,7 @@ const deeplinkSchema = new mongoose.Schema(
   },
 );
 
+deeplinkSchema.index({ project: 1 });
 deeplinkSchema.index({ alias: 1, project: 1 }, { unique: true });
 
 const Deeplink = mongoose.model('Deeplink', deeplinkSchema);

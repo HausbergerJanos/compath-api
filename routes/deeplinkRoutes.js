@@ -11,8 +11,7 @@ router
 router
   .route('/:id')
   .get(deeplinkController.getDeeplinkById)
-  .patch(deeplinkController.updateDeeplink);
-
-router.route('/alias/:alias').get(deeplinkController.getDeeplinkByAlias);
+  .patch(deeplinkController.updateDeeplink)
+  .delete(deeplinkController.deleteDeeplink);
 
 module.exports = router;

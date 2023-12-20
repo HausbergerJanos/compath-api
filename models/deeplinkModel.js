@@ -43,6 +43,21 @@ const deeplinkSchema = new mongoose.Schema(
       ref: 'Project',
       required: [true, 'A deeplink must belong to a project!'],
     },
+    linkParams: {
+      type: Map,
+      of: mongoose.Schema.Types.Mixed,
+      validate: {
+        validator: function (value) {
+          // Ensure there are no more than 20 key-value pairs
+          if (value.size > 20) {
+            return false;
+          }
+
+          return true;
+        },
+        message: 'Link parameters must have at most 20 key-value pairs.',
+      },
+    },
     defaultRedirectURL: String,
     desktopRedirectURL: String,
     androidRedirectURL: String,

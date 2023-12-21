@@ -2,12 +2,18 @@ const Deeplink = require('../models/deeplinkModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
+const getAndroidRedirectURL = (deeplink) =>
+  deeplink.androidRedirectSettings.redirectToPlayStore &&
+  deeplink.androidRedirectSettings.packageId
+    ? deeplink.androidRedirectSettings.packageId
+    : deeplink.androidRedirectSettings.customURL || deeplink.defaultRedirectURL;
+
 exports.getRedirecURL = catchAsync(async (req, res, next) => {
   const deeplink = await Deeplink.findOne({
     project: req.project.id,
     alias: req.params.alias,
   }).select(
-    'defaultRedirectURL desktopRedirectURL androidRedirectURL iosRedurectURL',
+    'defaultRedirectURL desktopRedirectURL androidRedirectSettings iosRedurectURL',
   );
 
   if (!deeplink) {
@@ -19,7 +25,7 @@ exports.getRedirecURL = catchAsync(async (req, res, next) => {
 
   switch (platform) {
     case 'android':
-      redirectURL = deeplink.androidRedirectURL;
+      redirectURL = getAndroidRedirectURL(deeplink);
       break;
     case 'ios':
       redirectURL = deeplink.iosRedurectURL;

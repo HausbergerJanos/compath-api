@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Project = require('./projectModel');
 
 const deeplinkSchema = new mongoose.Schema(
   {
@@ -60,8 +61,15 @@ const deeplinkSchema = new mongoose.Schema(
     },
     defaultRedirectURL: String,
     desktopRedirectURL: String,
-    androidRedirectURL: String,
     iosRedurectURL: String,
+    androidRedirectSettings: {
+      redirectToPlayStore: {
+        type: Boolean,
+        default: false,
+      },
+      packageId: String,
+      customURL: String,
+    },
   },
   {
     toJSON: {
@@ -75,6 +83,16 @@ const deeplinkSchema = new mongoose.Schema(
 
 deeplinkSchema.index({ project: 1 });
 deeplinkSchema.index({ alias: 1, project: 1 }, { unique: true });
+
+// DOCUMENT MIDDLEWARE
+// Runs before .create() and .save()
+// TODO - Enable later if it is needed
+// deeplinkSchema.pre('save', async function (next) {
+//   // This refers to current document
+//   const project = await Project.findById(this.project);
+//   this.androidRedirectSettings.packageId = project.androidClient.packageId;
+//   next();
+// });
 
 const Deeplink = mongoose.model('Deeplink', deeplinkSchema);
 

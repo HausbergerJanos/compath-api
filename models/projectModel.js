@@ -20,6 +20,9 @@ const projectSchema = new mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
+    androidClient: {
+      packageId: String,
+    },
   },
   {
     toJSON: {

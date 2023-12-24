@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Project = require('./projectModel');
+//const Project = require('./projectModel');
 
 const deeplinkSchema = new mongoose.Schema(
   {

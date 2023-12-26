@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean');
 const hpp = require('hpp');
-//const cors = require('cors');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -18,6 +18,8 @@ const app = express();
 // 1) GLOBAL MIDDLEWARES
 // Set security HTTP records
 app.use(helmet());
+
+app.use(cors({ origin: 'https://foo.bar' }));
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {

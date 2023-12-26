@@ -16,6 +16,14 @@ const redirectRouter = require('./routes/redirectRoutes');
 const app = express();
 
 // 1) GLOBAL MIDDLEWARES
+app.use((req, res, next) => {
+  res.setHeader(
+    'Content-Security-Policy',
+    'default-src https: http://18.197.172.106',
+  );
+  next();
+});
+
 // Set security HTTP records
 app.use(helmet());
 

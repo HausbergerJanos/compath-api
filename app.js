@@ -27,7 +27,7 @@ if (process.env.NODE_ENV === 'development') {
 //app.use(cors({ origin: 'http://127.0.0.1:5500' }));
 
 // Limit requests from same IP
-app.set('trust proxy', true);
+app.set('trust proxy', 1);
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000,

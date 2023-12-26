@@ -59,16 +59,25 @@ const deeplinkSchema = new mongoose.Schema(
         message: 'Link parameters must have at most 20 key-value pairs.',
       },
     },
-    defaultRedirectURL: String,
-    desktopRedirectURL: String,
-    iosRedurectURL: String,
     androidRedirectSettings: {
       redirectToPlayStore: {
         type: Boolean,
         default: false,
       },
       packageId: String,
-      customURL: String,
+      redirectURL: String,
+    },
+    iosRedirectSettings: {
+      redirectURL: String,
+    },
+    desktopRedirectSettings: {
+      redirectURL: String,
+    },
+    defaultRedirectSettings: {
+      redirectURL: {
+        type: String,
+        required: [true, 'A deeplink must have a default redirect URL!'],
+      },
     },
   },
   {

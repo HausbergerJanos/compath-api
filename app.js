@@ -19,7 +19,21 @@ const app = express();
 // Set security HTTP records
 app.use(helmet());
 
-app.use(cors({ origin: 'https://foo.bar' }));
+app.use(
+  cors({
+    methods: 'GET',
+    origin: function (origin, callback) {
+      if (process.env.NODE_ENV === 'development') {
+        callback(null, true);
+      } else if (/\.compath\.link$/.test(origin)) {
+        // Origin ends with ".compath.link
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+  }),
+);
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {

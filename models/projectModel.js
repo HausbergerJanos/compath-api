@@ -23,6 +23,10 @@ const projectSchema = new mongoose.Schema(
     androidClient: {
       packageId: String,
     },
+    defaultRedirectURL: {
+      type: String,
+      required: [true, 'A project must have a default redirect URL!'],
+    },
   },
   {
     toJSON: {

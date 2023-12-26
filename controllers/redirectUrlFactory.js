@@ -1,7 +1,7 @@
 const createRedirectURL = (baseURL, alias, dynamicParams) => {
-  let queryString = `?linkAlias=${alias}`;
+  let queryString = alias ? `?linkAlias=${alias}` : '';
   if (dynamicParams) {
-    queryString += `&${dynamicParams}`;
+    queryString += `${alias ? '&' : '?'}${dynamicParams}`;
   }
   return baseURL + queryString;
 };
@@ -24,6 +24,7 @@ exports.buildRedirectURL = (deeplink, platform, dynamicParams) => {
 
   if (
     platform === 'android' &&
+    deeplink.androidRedirectSettings &&
     deeplink.androidRedirectSettings.redirectToPlayStore &&
     deeplink.androidRedirectSettings.packageId
   ) {

@@ -9,4 +9,6 @@ router.route('/:alias').get(
   redirectController.getRedirecURL,
 );
 
+router.route('/:alias/params').get(redirectController.getRedirectParams);
+
 module.exports = router;

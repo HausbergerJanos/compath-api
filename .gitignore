@@ -68,3 +68,10 @@ public/
 .serverless/
 
 package-lock.json
+.idea/.gitignore
+.idea/compath-api.iml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/codeStyles/codeStyleConfig.xml
+.idea/codeStyles/Project.xml
+.idea/inspectionProfiles/Project_Default.xml

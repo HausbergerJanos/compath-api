@@ -50,11 +50,7 @@ const deeplinkSchema = new mongoose.Schema(
       validate: {
         validator: function (value) {
           // Ensure there are no more than 20 key-value pairs
-          if (value.size > 20) {
-            return false;
-          }
-
-          return true;
+          return value.size <= 20;
         },
         message: 'Link parameters must have at most 20 key-value pairs.',
       },

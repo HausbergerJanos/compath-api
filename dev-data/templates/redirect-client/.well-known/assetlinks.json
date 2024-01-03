@@ -1,0 +1,26 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.hausberger.deeplinktester",
+      "sha256_cert_fingerprints": [
+        "17:91:93:BA:76:06:FA:4B:53:FB:32:75:96:64:96:52:E0:03:6B:08:1A:77:F9:EF:35:8A:A5:81:26:0F:DF:3A"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.hausberger.deeplinktester",
+      "sha256_cert_fingerprints": [
+        "D6:50:9E:17:44:4A:C8:84:89:65:33:7C:49:E9:2A:05:77:C2:CE:9A:3A:0E:56:A2:E2:9B:E5:85:64:EC:26:56"
+      ]
+    }
+  }
+]

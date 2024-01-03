@@ -1,0 +1,8 @@
+body,
+html {
+    overflow-x: hidden;
+}
+
+.wrapText {
+    word-wrap: break-word;
+}

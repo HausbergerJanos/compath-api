@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const projectSchema = new mongoose.Schema(
   {
@@ -16,6 +17,7 @@ const projectSchema = new mongoose.Schema(
         'A project name must have more or equal then 3 characters',
       ],
     },
+    slug: String,
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -27,6 +29,9 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A project must have a default redirect URL!'],
     },
+    redirectClientMeta: {
+      bucketName: String,
+    },
   },
   {
     toJSON: {
@@ -37,6 +42,13 @@ const projectSchema = new mongoose.Schema(
     },
   },
 );
+
+// DOCUMENT MIDDLEWARE
+// Runs before .create() and .save()
+projectSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
 
 const Project = mongoose.model('Project', projectSchema);
 

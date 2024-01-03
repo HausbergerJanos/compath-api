@@ -77,3 +77,4 @@ package-lock.json
 .idea/inspectionProfiles/Project_Default.xml
 /.idea/jsLinters/eslint.xml
 /.idea/prettier.xml
+/.idea/jsLibraryMappings.xml

@@ -15,7 +15,7 @@ function getURLParameters() {
 
 document
   .getElementById('redirectButton')
-  .addEventListener('click', function() {
+  .addEventListener('click', function () {
     //window.location = "com.hausberger.application://";
     /**
      window.location.href =
@@ -48,7 +48,7 @@ function getAlias() {
   document.getElementById('alias').textContent += ` ${alias}`;
 }
 
-document.getElementById('fetchButton').addEventListener('click', function() {
+document.getElementById('fetchButton').addEventListener('click', function () {
   console.log('Fetch clicked!');
   getDataFromServer();
 });
@@ -67,7 +67,7 @@ function getDataFromServer() {
   }
 
   fetch(url, {
-    method: 'GET'
+    method: 'GET',
   })
     .then((response) => {
       if (!response.ok) {
@@ -90,7 +90,6 @@ function getDataFromServer() {
 document.addEventListener('DOMContentLoaded', () => {
   // Itt frissítjük az 'h2' elemet a verziószámmal
   document.getElementById('version').textContent = `v${version}`;
-  document.getElementById(
-    'title'
-  ).innerHTML = `Hello <span style="color: red;">${projectName}</span> project!`;
+  document.getElementById('title').innerHTML =
+    `Hello <span style="color: red;">${projectName}</span> project!`;
 });

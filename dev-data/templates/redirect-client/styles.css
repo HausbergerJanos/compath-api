@@ -1,8 +1,8 @@
 body,
 html {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .wrapText {
-    word-wrap: break-word;
+  word-wrap: break-word;
 }

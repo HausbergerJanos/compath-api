@@ -1,16 +1,16 @@
 const {
   S3Client,
   CreateBucketCommand,
-  PutObjectCommand,
   PutPublicAccessBlockCommand,
   PutBucketPolicyCommand,
   PutBucketWebsiteCommand,
+  PutObjectCommand,
   ListObjectsV2Command,
   DeleteObjectCommand,
   DeleteBucketCommand,
 } = require('@aws-sdk/client-s3');
-const path = require('path');
 const fs = require('fs-extra');
+const path = require('path');
 const mime = require('mime-types');
 
 const s3Client = new S3Client({
@@ -20,50 +20,6 @@ const s3Client = new S3Client({
     secretAccessKey: process.env.AWS_ACCESS_KEY_SECRET,
   },
 });
-
-async function uploadFile(bucketName, filePath, fileName) {
-  const fileContent = await fs.readFile(filePath, 'utf8');
-  const originalFileName = path.basename(filePath);
-  const contentType = mime.lookup(filePath) || 'application/octet-stream';
-
-  const uploadParams = {
-    Bucket: bucketName,
-    Key: fileName || originalFileName,
-    Body: fileContent,
-    ContentType: contentType,
-  };
-
-  console.log(uploadParams);
-  await s3Client.send(new PutObjectCommand(uploadParams));
-}
-
-exports.uploadDirectory = async function (bucketName, dirPath, prefix = '') {
-  const files = await fs.readdir(dirPath, { withFileTypes: true });
-  const uploadPromises = [];
-
-  for (const file of files) {
-    const filePath = path.join(dirPath, file.name);
-
-    if (file.isDirectory()) {
-      uploadPromises.push(
-        exports.uploadDirectory(
-          bucketName,
-          filePath,
-          path.join(prefix, file.name),
-        ),
-      );
-    } else {
-      const fileName = path.join(prefix, file.name).replace(/\\/g, '/');
-      uploadPromises.push(
-        uploadFile(bucketName, filePath, fileName).catch((error) => {
-          console.error(`Error during upload: ${filePath}`, error);
-        }),
-      );
-    }
-  }
-
-  await Promise.all(uploadPromises);
-};
 
 async function updateBucketRestrictions(bucketName) {
   const publicAccessBlockParams = {
@@ -75,7 +31,10 @@ async function updateBucketRestrictions(bucketName) {
       RestrictPublicBuckets: false,
     },
   };
-  await s3Client.send(new PutPublicAccessBlockCommand(publicAccessBlockParams));
+  const data = await s3Client.send(
+    new PutPublicAccessBlockCommand(publicAccessBlockParams),
+  );
+  console.log(data);
 }
 
 async function updateBucketPolicy(bucketName) {
@@ -111,26 +70,20 @@ async function updateBucketWebsiteHosting(bucketName) {
   await s3Client.send(new PutBucketWebsiteCommand(websiteConfig));
 }
 
-async function makeBucketPublic(bucketName) {
-  await updateBucketRestrictions(bucketName);
-  await updateBucketPolicy(bucketName);
-  await updateBucketWebsiteHosting(bucketName);
-}
+async function uploadFile(bucketName, filePath, fileName) {
+  const fileContent = await fs.readFile(filePath, 'utf8');
+  const originalFileName = path.basename(filePath);
+  const contentType = mime.lookup(filePath) || 'application/octet-stream';
 
-exports.createBucket = async (slug) => {
-  const bucketName = `compath-redirect-client-${slug}`;
-
-  const createBucketParams = {
+  const uploadParams = {
     Bucket: bucketName,
-    CreateBucketConfiguration: {
-      LocationConstraint: process.env.DEFAULT_REGION,
-    },
+    Key: fileName || originalFileName,
+    Body: fileContent,
+    ContentType: contentType,
   };
-  await s3Client.send(new CreateBucketCommand(createBucketParams));
-  await makeBucketPublic(bucketName);
 
-  return bucketName;
-};
+  await s3Client.send(new PutObjectCommand(uploadParams));
+}
 
 async function clearBucket(bucketName) {
   const listParams = { Bucket: bucketName };
@@ -139,7 +92,7 @@ async function clearBucket(bucketName) {
     new ListObjectsV2Command(listParams),
   );
 
-  if (listedObjects.Contents.length === 0) return;
+  if (!listedObjects.Contents || listedObjects.Contents.length === 0) return;
 
   await Promise.all(
     listedObjects.Contents.map(
@@ -152,6 +105,52 @@ async function clearBucket(bucketName) {
 
   if (listedObjects.IsTruncated) await clearBucket(bucketName);
 }
+
+exports.createBucket = async (slug) => {
+  const bucketName = `compath-redirect-client-${slug}`;
+
+  const createBucketParams = {
+    Bucket: bucketName,
+    CreateBucketConfiguration: {
+      LocationConstraint: process.env.DEFAULT_REGION,
+    },
+  };
+  await s3Client.send(new CreateBucketCommand(createBucketParams));
+
+  return bucketName;
+};
+
+exports.makeBucketPublic = async (bucketName) => {
+  await updateBucketRestrictions(bucketName);
+  await updateBucketPolicy(bucketName);
+  await updateBucketWebsiteHosting(bucketName);
+};
+
+exports.uploadDirectory = async function (bucketName, dirPath, prefix = '') {
+  const files = await fs.readdir(dirPath, { withFileTypes: true });
+  const uploadPromises = [];
+
+  for (const file of files) {
+    const filePath = path.join(dirPath, file.name);
+
+    if (file.isDirectory()) {
+      uploadPromises.push(
+        exports.uploadDirectory(
+          bucketName,
+          filePath,
+          path.join(prefix, file.name),
+        ),
+      );
+    } else {
+      const fileName = path.join(prefix, file.name).replace(/\\/g, '/');
+      uploadPromises.push(
+        uploadFile(bucketName, filePath, fileName).catch((error) => {
+          console.error(`Error during upload: ${filePath}`, error);
+        }),
+      );
+    }
+  }
+};
 
 exports.deleteBucket = async (bucketName) => {
   await clearBucket(bucketName);

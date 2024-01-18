@@ -1,0 +1,19 @@
+{
+  "ChangeBatch": {
+    "Changes": [
+      {
+        "Action": "{{action}}",
+        "ResourceRecordSet": {
+          "Name": "{{recordName}}",
+          "Type": "A",
+          "AliasTarget": {
+            "DNSName": "{{dnsName}}",
+            "EvaluateTargetHealth": false,
+            "HostedZoneId": "Z2FDTNDATAQYW2"
+          }
+        }
+      }
+    ]
+  },
+  "HostedZoneId": "{{hostedZoneIdRecord}}"
+}

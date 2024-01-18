@@ -10,9 +10,10 @@ const {
   deleteBucket,
 } = require('./s3Controller');
 const {
-  setCloudFrontForRedirectClient,
+  createCloudFrontDistribution,
   deleteRedirectClientCloudFront,
 } = require('./cloudFrontController');
+const { createARecord, deleteARecord } = require('./route53Controller');
 
 class AWSCloudProvider extends CloudProvider {
   async #copyRedirectClientFilesIntoBucket(project) {
@@ -32,7 +33,8 @@ class AWSCloudProvider extends CloudProvider {
   async createAndDeployRedirectClient(project) {
     await this.#initializeBucket(project);
     await this.#copyRedirectClientFilesIntoBucket(project);
-    await setCloudFrontForRedirectClient(project);
+    await createCloudFrontDistribution(project);
+    await createARecord(project);
   }
 
   async deleteRedirectClient(project) {
@@ -40,6 +42,7 @@ class AWSCloudProvider extends CloudProvider {
     await deleteRedirectClientCloudFront(
       project.redirectClientMeta.cloudFrontId,
     );
+    await deleteARecord(project);
   }
 }
 

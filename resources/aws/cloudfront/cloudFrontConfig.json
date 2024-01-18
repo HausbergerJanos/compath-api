@@ -1,14 +1,16 @@
 {
   "Aliases": {
     "Quantity": 1,
-    "Items": ["{bucket_alias_domain}"]
+    "Items": [
+      "{{bucket_alias_domain}}"
+    ]
   },
   "Origins": {
     "Quantity": 1,
     "Items": [
       {
-        "Id": "{bucket_origin_domain}",
-        "DomainName": "{bucket_origin_domain}",
+        "Id": "{{bucket_origin_domain}}",
+        "DomainName": "{{bucket_origin_domain}}",
         "OriginPath": "",
         "CustomHeaders": {
           "Quantity": 0
@@ -26,14 +28,20 @@
     ]
   },
   "DefaultCacheBehavior": {
-    "TargetOriginId": "{bucket_origin_domain}",
+    "TargetOriginId": "{{bucket_origin_domain}}",
     "ViewerProtocolPolicy": "redirect-to-https",
     "AllowedMethods": {
       "Quantity": 2,
-      "Items": ["HEAD", "GET"],
+      "Items": [
+        "HEAD",
+        "GET"
+      ],
       "CachedMethods": {
         "Quantity": 2,
-        "Items": ["HEAD", "GET"]
+        "Items": [
+          "HEAD",
+          "GET"
+        ]
       }
     },
     "SmoothStreaming": false,
@@ -66,7 +74,7 @@
       }
     ]
   },
-  "Comment": "For {project_name}",
+  "Comment": "For {{project_name}}",
   "PriceClass": "PriceClass_All",
   "Enabled": true,
   "ViewerCertificate": {

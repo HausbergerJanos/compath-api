@@ -16,7 +16,7 @@ const cloudFrontClient = new CloudFrontClient({
   },
 });
 
-exports.setCloudFrontForRedirectClient = async (project) => {
+exports.createCloudFrontDistribution = async (project) => {
   const distributionConfig = await createCloudfrontConfig(project);
   const command = new CreateDistributionCommand({
     DistributionConfig: distributionConfig,

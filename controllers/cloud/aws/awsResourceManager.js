@@ -90,18 +90,50 @@ exports.createCloudfrontConfig = async (project) => {
   // Set origin domain - S3
   replaceValue(
     distributionConfig,
-    '{bucket_alias_domain}',
+    '{{bucket_alias_domain}}',
     project.redirectClientMeta.domain,
   );
 
   // Set alias domain
   replaceValue(
     distributionConfig,
-    '{bucket_origin_domain}',
+    '{{bucket_origin_domain}}',
     bucketOriginDomain,
   );
 
-  replaceValue(distributionConfig, '{project_name}', project.name);
+  replaceValue(distributionConfig, '{{project_name}}', project.name);
 
   return distributionConfig;
+};
+
+exports.createRoute53RecordSettings = async (action, project) => {
+  const recordSettingsPath = path.join(
+    'resources',
+    'aws',
+    'route53',
+    'route53RecordSettings.json',
+  );
+  const recordSettings = await fs.readJson(recordSettingsPath);
+
+  replaceValue(recordSettings, '{{action}}', action);
+
+  replaceValue(
+    recordSettings,
+    '{{recordName}}',
+    project.redirectClientMeta.domain,
+  );
+
+  replaceValue(
+    recordSettings,
+    '{{dnsName}}',
+    project.redirectClientMeta.cloudFrontDomain,
+  );
+
+  replaceValue(
+    recordSettings,
+    '{{hostedZoneIdRecord}}',
+    process.env.HOSTED_ZONE_ID,
+  );
+
+  return recordSettings;
 };

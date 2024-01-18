@@ -31,6 +31,9 @@ const projectSchema = new mongoose.Schema(
     },
     redirectClientMeta: {
       bucketName: String,
+      cloudFrontId: String,
+      cloudFrontDomain: String,
+      domain: String,
     },
   },
   {

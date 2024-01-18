@@ -1,32 +1,45 @@
-const path = require('path');
 const CloudProvider = require('../CloudProvider');
-const fileUtils = require('../../../utils/fileUtils');
+const {
+  createRedirectClientFiles,
+  uploadRedirectClientFiles,
+  deleteTemporaryLocaleRedirectClientFiles,
+} = require('./awsResourceManager');
 const {
   createBucket,
-  makeBucketPublic,
+  setBucketPublic,
   deleteBucket,
-  uploadDirectory,
-} = require('./S3Controller');
+} = require('./s3Controller');
+const {
+  setCloudFrontForRedirectClient,
+  deleteRedirectClientCloudFront,
+} = require('./cloudFrontController');
 
 class AWSCloudProvider extends CloudProvider {
-  async createAndDeployRedirectClient(project) {
+  async #copyRedirectClientFilesIntoBucket(project) {
+    await createRedirectClientFiles(project);
+    await uploadRedirectClientFiles(project);
+    await deleteTemporaryLocaleRedirectClientFiles(project);
+  }
+
+  async #initializeBucket(project) {
     const bucketName = await createBucket(project.slug);
+    await setBucketPublic(bucketName);
     project.redirectClientMeta.bucketName = bucketName;
+    project.redirectClientMeta.domain = `${project.slug}.compath.link`;
     await project.save();
-    await makeBucketPublic(bucketName);
-    await fileUtils.createBucketSourceDirectory(project);
-    // TODO - Refactor!
-    await uploadDirectory(
-      bucketName,
-      path.join('dev-data', 'temporary', bucketName),
-    );
-    await fileUtils.deleteDirectory(
-      path.join('dev-data', 'temporary', bucketName),
-    );
+  }
+
+  async createAndDeployRedirectClient(project) {
+    await this.#initializeBucket(project);
+    await this.#copyRedirectClientFilesIntoBucket(project);
+    await setCloudFrontForRedirectClient(project);
   }
 
   async deleteRedirectClient(project) {
     await deleteBucket(project.redirectClientMeta.bucketName);
+    await deleteRedirectClientCloudFront(
+      project.redirectClientMeta.cloudFrontId,
+    );
   }
 }
 

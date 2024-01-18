@@ -31,10 +31,7 @@ async function updateBucketRestrictions(bucketName) {
       RestrictPublicBuckets: false,
     },
   };
-  const data = await s3Client.send(
-    new PutPublicAccessBlockCommand(publicAccessBlockParams),
-  );
-  console.log(data);
+  await s3Client.send(new PutPublicAccessBlockCommand(publicAccessBlockParams));
 }
 
 async function updateBucketPolicy(bucketName) {
@@ -120,7 +117,7 @@ exports.createBucket = async (slug) => {
   return bucketName;
 };
 
-exports.makeBucketPublic = async (bucketName) => {
+exports.setBucketPublic = async (bucketName) => {
   await updateBucketRestrictions(bucketName);
   await updateBucketPolicy(bucketName);
   await updateBucketWebsiteHosting(bucketName);

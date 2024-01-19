@@ -83,6 +83,21 @@ app.use('/api/v1/projects', projectRouter);
 app.use('/api/v1/deeplinks', deeplinkRouter);
 app.use('/api/v1/redirects', redirectRouter);
 
+app.use((req, res, next) => {
+  // if (
+  //   req.hostname === 'example1.test.com' ||
+  //   req.hostname === 'example12.test.com'
+  // ) {
+  //   // Speciális kezelés az example1.test.com és example12.test.com domainek számára
+  //   res.send('<html><body><h1>Üdvözöljük az Example API-n!</h1></body></html>');
+  // } else {
+  //   next(); // Továbbítja a kérést, ha nem az előbb említett domainek egyike
+  // }
+  console.log(req.hostname);
+  res.send(`<html><body><h1>Welcome dear ${req.hostname}</h1></body></html>`);
+  next();
+});
+
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl}`, 404));
 });

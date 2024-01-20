@@ -7,6 +7,7 @@ const xssClean = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 
+const path = require('path');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const projectRouter = require('./routes/projectRoutes');
@@ -83,16 +84,24 @@ app.use('/api/v1/projects', projectRouter);
 app.use('/api/v1/deeplinks', deeplinkRouter);
 app.use('/api/v1/redirects', redirectRouter);
 
+// Az útvonal, ahol a JSON fájlt szeretnéd kiszolgálni
+app.get('/.well-known/assetlinks.json', (req, res) => {
+  // Itt add meg a JSON fájl elérési útját
+  res.sendFile(
+    path.join(
+      __dirname,
+      'resources',
+      'aws',
+      's3',
+      'redirect_client',
+      'templates',
+      '.well-known',
+      'assetlinks.json',
+    ),
+  );
+});
+
 app.use((req, res, next) => {
-  // if (
-  //   req.hostname === 'example1.test.com' ||
-  //   req.hostname === 'example12.test.com'
-  // ) {
-  //   // Speciális kezelés az example1.test.com és example12.test.com domainek számára
-  //   res.send('<html><body><h1>Üdvözöljük az Example API-n!</h1></body></html>');
-  // } else {
-  //   next(); // Továbbítja a kérést, ha nem az előbb említett domainek egyike
-  // }
   console.log(req.hostname);
   res.send(`<html><body><h1>Welcome dear ${req.hostname}</h1></body></html>`);
   next();

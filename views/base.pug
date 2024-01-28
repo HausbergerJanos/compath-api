@@ -14,7 +14,7 @@ html(lang='en')
     - const queryString = Object.keys(query).map((key) =>`${encodeURIComponent(key)} = ${encodeURIComponent(query[key])}`,).join(', ')
     h2= `Parameters: ${queryString}`
     h2= `Alias: ${alias}`
-    - const deeplinkExists = deeplink ? "True" : "False"
+    - const deeplinkExists = deeplink.id ? "True" : "False"
     h2= `Is deeplink exists with that alias: ${deeplinkExists}`
     h2= `Redirect URL: ${redirectURL}`
     a.btn.btn--green.btn--small(href=`${redirectURL}`) Redirect

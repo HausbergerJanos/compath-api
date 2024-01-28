@@ -1,0 +1,20 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width' initial-scale='1.0')
+    link(rel='stylesheet', href='/css/style.css')
+
+  body
+    h1 Hello
+      | &#32
+      span.project-name #{project.name}
+      | !
+    h2= `This client is: ${client}`
+    - const queryString = Object.keys(query).map((key) =>`${encodeURIComponent(key)} = ${encodeURIComponent(query[key])}`,).join(', ')
+    h2= `Parameters: ${queryString}`
+    h2= `Alias: ${alias}`
+    - const deeplinkExists = deeplink ? "True" : "False"
+    h2= `Is deeplink exists with that alias: ${deeplinkExists}`
+    h2= `Redirect URL: ${redirectURL}`
+    a.btn.btn--green.btn--small(href=`${redirectURL}`) Redirect

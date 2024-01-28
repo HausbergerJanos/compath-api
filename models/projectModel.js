@@ -35,6 +35,14 @@ const projectSchema = new mongoose.Schema(
       cloudFrontDomain: String,
       domain: String,
     },
+    compathDomain: {
+      type: String,
+      unique: true,
+    },
+    domain: {
+      type: String,
+      unique: true,
+    },
   },
   {
     toJSON: {

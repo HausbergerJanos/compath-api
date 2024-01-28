@@ -87,3 +87,63 @@ exports.getRedirectParams = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+function detectClient(req) {
+  const userAgent = req.headers['user-agent'];
+
+  if (/android/i.test(userAgent)) {
+    return 'android';
+  }
+
+  if (/iPad|iPhone|iPod/.test(userAgent)) {
+    return 'iOS';
+  }
+
+  return 'desktop';
+}
+
+exports.getRedirectInfo = catchAsync(async (req, res, next) => {
+  const currentProject = await Project.findOne({
+    domain: req.host,
+  });
+  // const currentProject = await Project.findOne({
+  //   domain: 'test-project-91.compath.link',
+  // });
+
+  let deeplink = await Deeplink.findOne({
+    project: currentProject.id,
+    alias: req.params.alias,
+  }).select(
+    'alias linkParams androidRedirectSettings iosRedirectSettings desktopRedirectSettings defaultRedirectSettings',
+  );
+
+  if (!deeplink) {
+    // Use project's redirectURL as fallback
+    deeplink = {
+      defaultRedirectSettings: {
+        redirectURL: currentProject.defaultRedirectURL,
+      },
+    };
+  }
+
+  const platform = detectClient(req);
+
+  const redirectURL = urlFactory.buildRedirectURL(
+    deeplink,
+    platform,
+    req.query,
+  );
+
+  if (currentProject) {
+    res.status(200).render('base', {
+      project: currentProject,
+      alias: req.params.alias,
+      query: req.query,
+      client: platform,
+      deeplink: deeplink,
+      redirectURL: redirectURL,
+    });
+  } else {
+    next();
+  }
+});

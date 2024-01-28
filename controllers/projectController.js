@@ -12,6 +12,10 @@ exports.createProject = catchAsync(async (req, res, next) => {
   const project = await Project.create(req.body);
   await cloudProvider.createAndDeployRedirectClient(project);
 
+  project.compathDomain = `${project.slug}.compath.link`;
+  project.domain = `${project.slug}.compath.link`;
+  await project.save();
+
   res.status(201).json({
     status: 'success',
     project,

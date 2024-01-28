@@ -16,25 +16,31 @@ const redirectRouter = require('./routes/redirectRoutes');
 
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 // 1) GLOBAL MIDDLEWARES
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Set security HTTP records
 app.use(helmet());
 
-app.use(
-  cors({
-    methods: 'GET',
-    origin: function (origin, callback) {
-      if (process.env.NODE_ENV === 'development') {
-        callback(null, true);
-      } else if (/\.compath\.link$/.test(origin)) {
-        // Origin ends with ".compath.link
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-  }),
-);
+// app.use(
+//   cors({
+//     methods: 'GET',
+//     origin: function (origin, callback) {
+//       if (process.env.NODE_ENV === 'development') {
+//         callback(null, true);
+//       } else if (/\.compath\.link$/.test(origin)) {
+//         // Origin ends with ".compath.link
+//         callback(null, true);
+//       } else {
+//         callback(new Error('Not allowed by CORS'));
+//       }
+//     },
+//   }),
+// );
 
 // Development logging
 if (process.env.NODE_ENV === 'development') {
@@ -80,11 +86,8 @@ app.use((req, res, next) => {
 });
 
 // 2) ROUTES
-app.use('/api/v1/projects', projectRouter);
-app.use('/api/v1/deeplinks', deeplinkRouter);
-app.use('/api/v1/redirects', redirectRouter);
+app.use('/', redirectRouter);
 
-// Az útvonal, ahol a JSON fájlt szeretnéd kiszolgálni
 app.get('/.well-known/assetlinks.json', (req, res) => {
   // Itt add meg a JSON fájl elérési útját
   res.sendFile(
@@ -101,11 +104,9 @@ app.get('/.well-known/assetlinks.json', (req, res) => {
   );
 });
 
-app.use((req, res, next) => {
-  console.log(req.hostname);
-  res.send(`<html><body><h1>Welcome dear ${req.hostname}</h1></body></html>`);
-  next();
-});
+app.use('/api/v1/projects', projectRouter);
+app.use('/api/v1/deeplinks', deeplinkRouter);
+app.use('/api/v1/redirects', redirectRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl}`, 404));

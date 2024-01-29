@@ -18,7 +18,7 @@ async function modifyARecord(recordSettings) {
 }
 
 exports.createARecord = async (project) => {
-  const recordSettings = await createRoute53RecordSettings('CREATE', project);
+  const recordSettings = await createRoute53RecordSettings('UPSERT', project);
   await modifyARecord(recordSettings);
 };
 

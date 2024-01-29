@@ -117,17 +117,9 @@ exports.createRoute53RecordSettings = async (action, project) => {
 
   replaceValue(recordSettings, '{{action}}', action);
 
-  replaceValue(
-    recordSettings,
-    '{{recordName}}',
-    project.redirectClientMeta.domain,
-  );
+  replaceValue(recordSettings, '{{recordName}}', project.domain);
 
-  replaceValue(
-    recordSettings,
-    '{{dnsName}}',
-    project.redirectClientMeta.cloudFrontDomain,
-  );
+  replaceValue(recordSettings, '{{dnsName}}', process.env.API_DOMAIN);
 
   replaceValue(
     recordSettings,

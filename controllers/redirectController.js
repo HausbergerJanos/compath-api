@@ -5,6 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const urlFactory = require('./redirectUrlFactory');
 const serialization = require('../utils/serialization');
 
+// TODO - Delete it!
 exports.getRedirecURL = catchAsync(async (req, res, next) => {
   let deeplink = await Deeplink.findOne({
     project: req.params.projectId,
@@ -103,12 +104,19 @@ function detectClient(req) {
 }
 
 exports.getRedirectInfo = catchAsync(async (req, res, next) => {
-  const currentProject = await Project.findOne({
-    domain: req.host,
-  });
-  // const currentProject = await Project.findOne({
-  //   domain: 'test-project-91.compath.link',
-  // });
+  let currentProject;
+  if (req.query._cpProjectId) {
+    currentProject = await Project.findById(req.query._cpProjectId);
+  } else {
+    currentProject = await Project.findOne({
+      domain: req.host,
+    });
+  }
+
+  // Remove special ComPath id from query. It is needed only for development!
+  const query = { ...req.query };
+  delete query._cpProjectId;
+  console.log(query);
 
   let deeplink = await Deeplink.findOne({
     project: currentProject.id,
@@ -128,17 +136,13 @@ exports.getRedirectInfo = catchAsync(async (req, res, next) => {
 
   const platform = detectClient(req);
 
-  const redirectURL = urlFactory.buildRedirectURL(
-    deeplink,
-    platform,
-    req.query,
-  );
+  const redirectURL = urlFactory.buildRedirectURL(deeplink, platform, query);
 
   if (currentProject) {
     res.status(200).render('base', {
       project: currentProject,
       alias: req.params.alias,
-      query: req.query,
+      query: query,
       client: platform,
       deeplink: deeplink,
       redirectURL: redirectURL,

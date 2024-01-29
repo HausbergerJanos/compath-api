@@ -34,7 +34,7 @@ class AWSCloudProvider extends CloudProvider {
     //await this.#initializeBucket(project);
     //await this.#copyRedirectClientFilesIntoBucket(project);
     //await createCloudFrontDistribution(project);
-    //await createARecord(project);
+    await createARecord(project);
   }
 
   async deleteRedirectClient(project) {
@@ -42,7 +42,7 @@ class AWSCloudProvider extends CloudProvider {
     //await deleteRedirectClientCloudFront(
     //  project.redirectClientMeta.cloudFrontId,
     //);
-    //await deleteARecord(project);
+    await deleteARecord(project);
   }
 }
 

@@ -3,6 +3,10 @@ html {
     overflow-x: hidden;
 }
 
+.wrapText {
+    word-wrap: break-word;
+}
+
 .project-name {
     color: red;
     font-weight: bold;

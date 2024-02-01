@@ -1,9 +1,7 @@
 {
   "Aliases": {
     "Quantity": 1,
-    "Items": [
-      "{{bucket_alias_domain}}"
-    ]
+    "Items": ["{{bucket_alias_domain}}"]
   },
   "Origins": {
     "Quantity": 1,
@@ -32,16 +30,10 @@
     "ViewerProtocolPolicy": "redirect-to-https",
     "AllowedMethods": {
       "Quantity": 2,
-      "Items": [
-        "HEAD",
-        "GET"
-      ],
+      "Items": ["HEAD", "GET"],
       "CachedMethods": {
         "Quantity": 2,
-        "Items": [
-          "HEAD",
-          "GET"
-        ]
+        "Items": ["HEAD", "GET"]
       }
     },
     "SmoothStreaming": false,

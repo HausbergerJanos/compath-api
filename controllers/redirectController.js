@@ -1,41 +1,8 @@
 const Deeplink = require('../models/deeplinkModel');
 const Project = require('../models/projectModel');
 const catchAsync = require('../utils/catchAsync');
-//const AppError = require('../utils/appError');
 const urlFactory = require('./redirectUrlFactory');
 const serialization = require('../utils/serialization');
-
-// TODO - Delete it!
-exports.getRedirecURL = catchAsync(async (req, res, next) => {
-  let deeplink = await Deeplink.findOne({
-    project: req.params.projectId,
-    alias: req.params.alias,
-  }).select(
-    'alias androidRedirectSettings iosRedirectSettings desktopRedirectSettings defaultRedirectSettings',
-  );
-
-  if (!deeplink) {
-    const project = await Project.findById(req.params.projectId);
-    // Use project's redirectURL as fallback
-    deeplink = {
-      defaultRedirectSettings: {
-        redirectURL: project.defaultRedirectURL,
-      },
-    };
-  }
-
-  const { platform, dynamicParams } = req.query;
-  const redirectURL = urlFactory.buildRedirectURL(
-    deeplink,
-    platform || 'default',
-    dynamicParams,
-  );
-
-  res.status(200).json({
-    status: 'success',
-    redirectURL,
-  });
-});
 
 exports.getRedirectParams = catchAsync(async (req, res, next) => {
   let deeplink = await Deeplink.findOne({
@@ -103,20 +70,15 @@ function detectClient(req) {
   return 'desktop';
 }
 
-exports.getRedirectInfo = catchAsync(async (req, res, next) => {
+exports.getRedirectDestination = catchAsync(async (req, res, next) => {
   let currentProject;
-  if (req.query._cpProjectId) {
-    currentProject = await Project.findById(req.query._cpProjectId);
+  if (req.params.projectId) {
+    currentProject = await Project.findById(req.params.projectId);
   } else {
     currentProject = await Project.findOne({
       domain: req.host,
     });
   }
-
-  // Remove special ComPath id from query. It is needed only for development!
-  const query = { ...req.query };
-  delete query._cpProjectId;
-  console.log(query);
 
   let deeplink = await Deeplink.findOne({
     project: currentProject.id,
@@ -136,13 +98,17 @@ exports.getRedirectInfo = catchAsync(async (req, res, next) => {
 
   const platform = detectClient(req);
 
-  const redirectURL = urlFactory.buildRedirectURL(deeplink, platform, query);
+  const redirectURL = urlFactory.buildRedirectURL(
+    deeplink,
+    platform,
+    req.query,
+  );
 
   if (currentProject) {
     res.status(200).render('base', {
       project: currentProject,
       alias: req.params.alias,
-      query: query,
+      query: req.query,
       client: platform,
       deeplink: deeplink,
       redirectURL: redirectURL,

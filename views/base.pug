@@ -19,11 +19,11 @@ html(lang='en')
     if (deeplink.fullLink)
       meta(property='og:url' content=`https://${deeplink.fullLink}`)
     meta(property='og:type' content='website')
-    if (deeplink.socialLinkAttributes.title)
+    if (deeplink.socialLinkAttributes && deeplink.socialLinkAttributes.title)
       meta(property='og:title' content=`${deeplink.socialLinkAttributes.title}`)
-    if (deeplink.socialLinkAttributes.description)
+    if (deeplink.socialLinkAttributes && deeplink.socialLinkAttributes.description)
       meta(property='og:description' content=`${deeplink.socialLinkAttributes.description}`)
-    if (deeplink.socialLinkAttributes.imageUrl)
+    if (deeplink.socialLinkAttributes && deeplink.socialLinkAttributes.imageUrl)
       meta(property='og:image' content=`${deeplink.socialLinkAttributes.imageUrl}`)
 
     // Twitter Meta Tags
@@ -31,11 +31,11 @@ html(lang='en')
     if (deeplink.fullLink)
       meta(property='twitter:domain' content=`${deeplink.fullLink}`)
       meta(property='twitter:url' content=`https://${deeplink.fullLink}`)
-    if (deeplink.socialLinkAttributes.title)
+    if (deeplink.socialLinkAttributes && deeplink.socialLinkAttributes.title)
       meta(name='twitter:title' content=`${deeplink.socialLinkAttributes.title}`)
-    if (deeplink.socialLinkAttributes.description)
+    if (deeplink.socialLinkAttributes && deeplink.socialLinkAttributes.description)
       meta(name='twitter:description' content=`${deeplink.socialLinkAttributes.description}`)
-    if (deeplink.socialLinkAttributes.imageUrl)
+    if (deeplink.socialLinkAttributes && deeplink.socialLinkAttributes.imageUrl)
       meta(name='twitter:image' content=`${deeplink.socialLinkAttributes.imageUrl}`)
 
   body
@@ -50,9 +50,9 @@ html(lang='en')
         div.column
           img(src='/public/img/phone.png')
       .section
-        if (deeplink.campaignSettings.title)
+        if (deeplink.campaignSettings && deeplink.campaignSettings.title)
           h2= `${deeplink.campaignSettings.title}`
-        if (deeplink.campaignSettings.description)
+        if (deeplink.campaignSettings && deeplink.campaignSettings.description)
           p= `${deeplink.campaignSettings.description}`
       .section
         h2 Developer information

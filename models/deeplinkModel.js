@@ -87,6 +87,11 @@ const deeplinkSchema = new mongoose.Schema(
       title: String,
       description: String,
     },
+    socialLinkAttributes: {
+      title: String,
+      description: String,
+      imageUrl: String,
+    },
   },
   {
     toJSON: {
@@ -97,6 +102,13 @@ const deeplinkSchema = new mongoose.Schema(
     },
   },
 );
+
+deeplinkSchema.virtual('fullLink').get(function () {
+  if (!this.populated('project')) {
+    return 'Project not populated';
+  }
+  return `${this.project.domain}/${this.alias}`;
+});
 
 deeplinkSchema.index({ project: 1 });
 deeplinkSchema.index({ alias: 1, project: 1 }, { unique: true });

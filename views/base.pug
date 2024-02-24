@@ -3,7 +3,13 @@ html(lang='en')
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width' initial-scale='1.0')
-    link(rel='stylesheet', href='/css/style.css')
+
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet")
+
+
+    link(rel='stylesheet', href='/public/css/style.css')
 
     // HTML Meta Tags
     title Hírek
@@ -25,15 +31,35 @@ html(lang='en')
     meta(name='twitter:image' content='https://ogcdn.net/e4b8c678-7bd5-445d-ba03-bfaad510c686/v3/experiment.compath.link/H%C3%ADrek/https%3A%2F%2Fopengraph.b-cdn.net%2Fproduction%2Fdocuments%2F452454e7-efff-406a-acd4-535e79b02a6d.jpg%3Ftoken%3DZtBw5KZPFbA1hdzRzF5ZGniPDoKy8yGTAE9jipOWjxM%26height%3D801%26width%3D1200%26expires%3D33242449192/og.png')
 
   body
-    h1 Hello
-      | &#32
-      span.project-name #{project.name}
-      | !
-    h2= `This client is: ${client}`
-    - const queryString = Object.keys(query).map((key) =>`${encodeURIComponent(key)} = ${encodeURIComponent(query[key])}`,).join(', ')
-    h2.wrapText= `Parameters: ${queryString}`
-    h2.wrapText= `Alias: ${alias}`
-    - const deeplinkExists = deeplink.id ? "True" : "False"
-    h2.wrapText= `Is deeplink exists with that alias: ${deeplinkExists}`
-    h2.wrapText= `Redirect URL: ${redirectURL}`
-    a.btn.btn--green.btn--small(href=`${redirectURL}`) Redirect
+    div.container
+      div.column
+        div.titleContainer
+          h1= `${project.name}`
+          h3 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+      div.column
+        img(src='/public/img/phone.png')
+    .section
+      h2 About the project
+      p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque maximus volutpat erat, ut vulputate tellus dapibus ac. Nullam vestibulum turpis in nisi placerat, sit amet sagittis neque dignissim. Aenean et odio vitae libero commodo imperdiet. In ultrices sagittis bibendum. Etiam molestie leo eget urna pellentesque, sed pellentesque est finibus. Sed rhoncus imperdiet tristique. Nulla sit amet maximus diam, ut ultrices magna. Praesent vitae neque non nisi gravida fringilla. Suspendisse commodo viverra luctus. Donec id convallis dolor. In vehicula sapien et dolor finibus tristique. Quisque ac ante ultricies, ornare dolor at, imperdiet magna. Quisque non lobortis risus, a suscipit ex.
+    .section
+      h2 Developer information
+      .card
+        h2
+          span.bold This client is:
+          |  #{client}
+        - const queryString = Object.keys(query).map((key) =>`${encodeURIComponent(key)} = ${encodeURIComponent(query[key])}`,).join(', ')
+        h2.wrapText
+          span.bold Parameters:
+          |  #{queryString}
+        h2.wrapText
+          span.bold Alias:
+          |  #{alias}
+        - const deeplinkExists = deeplink.id ? "True" : "False"
+        h2.wrapText
+          span.bold Is deeplink exists with that alias:
+          |  #{deeplinkExists}
+        h2.wrapText
+          span.bold Redirect URL:
+          |  #{redirectURL}
+    .section
+      a.btn.btn--green.btn--small(href=`${redirectURL}`) Redirect

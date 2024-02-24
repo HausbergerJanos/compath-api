@@ -14,4 +14,6 @@ router
   .patch(deeplinkController.updateDeeplink)
   .delete(deeplinkController.deleteDeeplink);
 
+router.route('/:alias/params').get(deeplinkController.getDeeplinkParmas);
+
 module.exports = router;

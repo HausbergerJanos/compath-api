@@ -1,357 +1,359 @@
 body,
 html {
-    overflow-x: hidden;
-    background: #fffcf3;
-    font-family: 'Noto Sans', sans-serif;
-    margin: 0;
-    padding: 0;
-    padding-bottom: 50px;
+  overflow-x: hidden;
+  background: #fffcf3;
+  font-family: 'Noto Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  padding-bottom: 50px;
 }
 
 .btn,
 .btn:link,
 .btn:visited {
-    font-size: 1.6rem;
-    padding: 1.4rem 3rem;
-    border-radius: 10rem;
-    display: inline-block;
-    text-decoration: none;
-    position: relative;
-    -webkit-transition: all 0.4s;
-    transition: all 0.4s;
-    font-weight: 400;
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;
-    border: none;
-    cursor: pointer;
+  font-size: 1.6rem;
+  padding: 1.4rem 3rem;
+  border-radius: 10rem;
+  display: inline-block;
+  text-decoration: none;
+  position: relative;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
+  font-weight: 400;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border: none;
+  cursor: pointer;
 }
 
 .btn:hover {
-    -webkit-transform: translateY(-3px);
-    transform: translateY(-3px);
-    -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  -webkit-transform: translateY(-3px);
+  transform: translateY(-3px);
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
 }
 
 .btn:active {
-    -webkit-transform: translateY(-1px);
-    transform: translateY(-1px);
-    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  -webkit-transform: translateY(-1px);
+  transform: translateY(-1px);
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .btn:focus {
-    outline: none;
-    background-color: #f5ce06;
+  outline: none;
+  background-color: #f5ce06;
 }
 
 .btn--white {
-    background-color: #fff;
-    color: #777;
+  background-color: #fff;
+  color: #777;
 }
 
 .btn--white::after {
-    background-color: #fff;
+  background-color: #fff;
 }
 
 .btn--green {
-    background-color: #ffea8d;
-    color: #1f1f1f;
+  background-color: #ffea8d;
+  color: #1f1f1f;
 }
 
 .btn--green::after {
-    background-color: #ffe34a;
+  background-color: #ffe34a;
 }
 
 .btn--small {
-    padding: 1.25rem 3rem !important;
-    font-size: 1.4rem !important;
+  padding: 1.25rem 3rem !important;
+  font-size: 1.4rem !important;
 }
 
 .btn-small,
 .btn-small:link,
 .btn-small:visited {
-    background-color: #ffe34a;
-    color: #fff;
-    font-size: 1.4rem;
-    padding: 1.25rem 3rem;
-    border-radius: 10rem;
-    position: relative;
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: 400;
-    border: none;
+  background-color: #ffe34a;
+  color: #fff;
+  font-size: 1.4rem;
+  padding: 1.25rem 3rem;
+  border-radius: 10rem;
+  position: relative;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 400;
+  border: none;
 }
 
 .btn-small:hover {
-    background-color: #f5ce06;
+  background-color: #f5ce06;
 }
 
 .btn-text:link,
 .btn-text:visited {
-    color: #ffe34a;
-    display: inline-block;
-    text-decoration: none;
-    border-bottom: 1px solid #ffe34a;
-    padding: 3px;
-    -webkit-transition: all 0.2s;
-    transition: all 0.2s;
+  color: #ffe34a;
+  display: inline-block;
+  text-decoration: none;
+  border-bottom: 1px solid #ffe34a;
+  padding: 3px;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
 }
 
 .btn-text:hover {
-    background-color: #ffe34a;
-    color: #fff;
-    -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
-    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
-    -webkit-transform: translateY(-2px);
-    transform: translateY(-2px);
+  background-color: #ffe34a;
+  color: #fff;
+  -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  -webkit-transform: translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .btn-text:active {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-    -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
 .btn-text:focus {
-    outline: none;
-    outline: 3px solid #ffe34a;
-    outline-offset: 3px;
+  outline: none;
+  outline: 3px solid #ffe34a;
+  outline-offset: 3px;
 }
 
 .container {
-    height: 70vh; /* A konténer magassága a nézetablak 70%-a */
-    display: flex;
-    flex-wrap: wrap; /* Lehetővé teszi az elemek egymás alá rendeződését */
-    gap: 20px; /* Távolság az oszlopok között */
-    margin-left: 8px;
-    margin-right: 8px;
-    margin-top: 8px;
+  height: 70vh; /* A konténer magassága a nézetablak 70%-a */
+  display: flex;
+  flex-wrap: wrap; /* Lehetővé teszi az elemek egymás alá rendeződését */
+  gap: 20px; /* Távolság az oszlopok között */
+  margin-left: 8px;
+  margin-right: 8px;
+  margin-top: 8px;
 }
 
 .column {
-    flex: 1; /* Az oszlopok egyenlő szélességűek lesznek */
-    min-width: 300px; /* Az oszlopok minimális szélessége, ami alatt egymás alá kerülnek */
-    background-color: #f4f1e4;
-    border-radius: 20px; /* A sarkok lekerekítése */
-    position: relative; /* Alap a pozícionáláshoz */
+  flex: 1; /* Az oszlopok egyenlő szélességűek lesznek */
+  min-width: 300px; /* Az oszlopok minimális szélessége, ami alatt egymás alá kerülnek */
+  background-color: #f4f1e4;
+  border-radius: 20px; /* A sarkok lekerekítése */
+  position: relative; /* Alap a pozícionáláshoz */
 }
 
 .container > .column:nth-child(1) {
-    flex: 0 0 60%; /* Az első oszlop szélessége 60% */
+  flex: 0 0 60%; /* Az első oszlop szélessége 60% */
 }
 
 .container > .column:nth-child(2) {
-    background-image: url('../img/bg.jpg');
-    background-size: cover; /* A kép kitölti az oszlop területét anélkül, hogy torzulna */
-    background-position: center; /* A kép középre igazítása */
+  background-image: url('../img/bg.jpg');
+  background-size: cover; /* A kép kitölti az oszlop területét anélkül, hogy torzulna */
+  background-position: center; /* A kép középre igazítása */
 }
 
 /* A kép méretének és pozícionálásának beállítása a második oszlopban */
 .container > .column:nth-child(2) img {
-    max-width: 90%; /* A kép szélességét korlátozza, hogy illeszkedjen a konténer szélességéhez */
-    height: auto; /* A kép magasságának automatikus beállítása a szélesség arányához */
-    display: block; /* Blokk szintű elemként jelenik meg, ami lehetővé teszi a középre helyezést */
-    margin: 0 auto; /* Középre helyezi a képet vízszintesen */
-    position: absolute; /* Abszolút pozícionálás a konténeren belül */
-    bottom: 0; /* A képet a konténer aljához igazítja */
-    left: 50%; /* Vízszintesen középre helyezi a képet */
-    transform: translateX(-50%); /* Vízszintes korrekció, hogy a kép középen legyen */
+  max-width: 90%; /* A kép szélességét korlátozza, hogy illeszkedjen a konténer szélességéhez */
+  height: auto; /* A kép magasságának automatikus beállítása a szélesség arányához */
+  display: block; /* Blokk szintű elemként jelenik meg, ami lehetővé teszi a középre helyezést */
+  margin: 0 auto; /* Középre helyezi a képet vízszintesen */
+  position: absolute; /* Abszolút pozícionálás a konténeren belül */
+  bottom: 0; /* A képet a konténer aljához igazítja */
+  left: 50%; /* Vízszintesen középre helyezi a képet */
+  transform: translateX(
+    -50%
+  ); /* Vízszintes korrekció, hogy a kép középen legyen */
 }
 
 .titleContainer {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%; /* Ezt add hozzá, ha a .titleContainer kitölti a .column magasságát */
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%; /* Ezt add hozzá, ha a .titleContainer kitölti a .column magasságát */
+  width: 100%;
 }
 
 h1 {
-    font-size: 90px;
-    font-weight: 500;
-    margin: 0;
-    text-align: center;
-    padding-top: 16px;
-    color: #1f1f1f;
+  font-size: 90px;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+  padding-top: 16px;
+  color: #1f1f1f;
 }
 
 h3 {
-    font-size: 24px;
-    font-weight: 300;
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 16px;
-    text-align: center;
-    color: #1f1f1f;
+  font-size: 24px;
+  font-weight: 300;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 16px;
+  text-align: center;
+  color: #1f1f1f;
 }
 
 .section {
-    width: 65%;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding-top: 60px;
+  width: 65%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding-top: 60px;
 }
 
 .section h2 {
-    font-size: 42px;
-    font-weight: 600;
-    color: #1f1f1f;
+  font-size: 42px;
+  font-weight: 600;
+  color: #1f1f1f;
 }
 
 .section p {
-    color: #1f1f1f;
-    line-height: 1.6;
+  color: #1f1f1f;
+  line-height: 1.6;
 }
 
 .card {
-    background-color: #f4f1e4;
-    border-radius: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 16px 32px;
-    margin-bottom: 20px;
+  background-color: #f4f1e4;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px 32px;
+  margin-bottom: 20px;
 }
 
 .card h2 {
-    font-size: 20px;
-    font-weight: 400;
-    color: #333;
-    line-height: 1.6;
+  font-size: 20px;
+  font-weight: 400;
+  color: #333;
+  line-height: 1.6;
 }
 
 .wrapText {
-    word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .bold {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 @media (max-width: 1400px) {
-    .container {
-        height: 55vh;
-    }
+  .container {
+    height: 55vh;
+  }
 }
 
 @media (max-width: 1200px) {
-    .container {
-        height: 100vh;
-        gap: 10px
-    }
+  .container {
+    height: 100vh;
+    gap: 10px;
+  }
 
-    .container > .column:nth-child(1) {
-        flex: 0 0 100%; /* Az első oszlop szélessége 60% */
-    }
+  .container > .column:nth-child(1) {
+    flex: 0 0 100%; /* Az első oszlop szélessége 60% */
+  }
 
-    .container > .column:nth-child(1) {
-        height: 30vh;
-    }
+  .container > .column:nth-child(1) {
+    height: 30vh;
+  }
 
-    .container > .column:nth-child(2) {
-        height: 70vh;
-    }
+  .container > .column:nth-child(2) {
+    height: 70vh;
+  }
 
-    .container > .column:nth-child(2) img {
-        max-width: 60%;
-    }
+  .container > .column:nth-child(2) img {
+    max-width: 60%;
+  }
 
-    .column {
-        flex-basis: 100%; /* Az oszlopok szélessége 100% lesz */
-    }
+  .column {
+    flex-basis: 100%; /* Az oszlopok szélessége 100% lesz */
+  }
 }
 
 @media (max-width: 1000px) {
-    .container {
-        height: 70vh;
-    }
+  .container {
+    height: 70vh;
+  }
 
-    .container > .column:nth-child(1) {
-        height: 20vh;
-    }
+  .container > .column:nth-child(1) {
+    height: 20vh;
+  }
 
-    .container > .column:nth-child(2) {
-        height: 50vh;
-    }
+  .container > .column:nth-child(2) {
+    height: 50vh;
+  }
 
-    .container > .column:nth-child(2) img {
-        max-width: 50%;
-    }
+  .container > .column:nth-child(2) img {
+    max-width: 50%;
+  }
 
-    h1 {
-        font-size: 40px;
-        font-weight: 500;
-    }
+  h1 {
+    font-size: 40px;
+    font-weight: 500;
+  }
 
-    h3 {
-        font-size: 16px;
-        font-weight: 300;
-    }
+  h3 {
+    font-size: 16px;
+    font-weight: 300;
+  }
 }
 
 @media (max-width: 700px) {
-    .container {
-        height: 50vh;
-    }
+  .container {
+    height: 50vh;
+  }
 
-    .container > .column:nth-child(1) {
-        height: 15vh;
-    }
+  .container > .column:nth-child(1) {
+    height: 15vh;
+  }
 
-    .container > .column:nth-child(2) {
-        height: 35vh;
-    }
+  .container > .column:nth-child(2) {
+    height: 35vh;
+  }
 
-    .container > .column:nth-child(2) img {
-        max-width: 50%;
-    }
+  .container > .column:nth-child(2) img {
+    max-width: 50%;
+  }
 
-    .card h2 {
-        font-size: 16px;
-    }
+  .card h2 {
+    font-size: 16px;
+  }
 }
 
 @media (max-width: 500px) {
-    .container {
-        height: 60vh;
-    }
+  .container {
+    height: 60vh;
+  }
 
-    .container > .column:nth-child(1) {
-        height: 20vh;
-    }
+  .container > .column:nth-child(1) {
+    height: 20vh;
+  }
 
-    .container > .column:nth-child(2) {
-        height: 40vh;
-    }
+  .container > .column:nth-child(2) {
+    height: 40vh;
+  }
 
-    .container > .column:nth-child(2) img {
-        max-width: 75%;
-    }
+  .container > .column:nth-child(2) img {
+    max-width: 75%;
+  }
 
-    h1 {
-        font-size: 40px;
-        font-weight: 500;
-    }
+  h1 {
+    font-size: 40px;
+    font-weight: 500;
+  }
 
-    h3 {
-        font-size: 16px;
-        font-weight: 300;
-    }
+  h3 {
+    font-size: 16px;
+    font-weight: 300;
+  }
 
-    .section {
-        width: 85%;
-    }
+  .section {
+    width: 85%;
+  }
 
-    .section h2 {
-        font-size: 28px;
-        font-weight: 700;
-        line-height: 0.9;
-    }
+  .section h2 {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 0.9;
+  }
 
-    .card h2 {
-        font-size: 18px;
-        line-height: 1.6;
-    }
+  .card h2 {
+    font-size: 18px;
+    line-height: 1.6;
+  }
 }

@@ -22,7 +22,7 @@ exports.getRedirectDestination = catchAsync(async (req, res, next) => {
     project: currentProject.id,
     alias: req.params.alias,
   }).select(
-    'alias linkParams androidRedirectSettings iosRedirectSettings desktopRedirectSettings defaultRedirectSettings',
+    'alias linkParams androidRedirectSettings iosRedirectSettings desktopRedirectSettings defaultRedirectSettings redirectBehavior campaignSettings',
   );
 
   if (!deeplink) {
@@ -42,6 +42,7 @@ exports.getRedirectDestination = catchAsync(async (req, res, next) => {
     req.query,
   );
 
+  console.log(deeplink);
   res.status(200).render('base', {
     project: currentProject,
     alias: req.params.alias,

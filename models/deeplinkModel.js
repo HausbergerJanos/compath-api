@@ -75,6 +75,18 @@ const deeplinkSchema = new mongoose.Schema(
         required: [true, 'A deeplink must have a default redirect URL!'],
       },
     },
+    redirectBehavior: {
+      type: String,
+      required: [true, 'A deeplink must have a redirect behavior!'],
+      enum: {
+        values: ['auto', 'campaign_page'],
+        message: 'Redirect behavior is either: auto or campaign page',
+      },
+    },
+    campaignSettings: {
+      title: String,
+      description: String,
+    },
   },
   {
     toJSON: {

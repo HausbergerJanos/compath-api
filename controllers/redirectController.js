@@ -7,7 +7,6 @@ const { detectClientPlatform } = require('../utils/userAgentUtils');
 const AppError = require('../utils/appError');
 
 exports.getRedirectDestination = catchAsync(async (req, res, next) => {
-  console.log('Bingoo');
   let currentProject;
   if (req.params.projectId) {
     currentProject = await Project.findById(req.params.projectId);
@@ -63,7 +62,14 @@ exports.getRedirectDestination = catchAsync(async (req, res, next) => {
 
 exports.getAssetlinks = catchAsync(async (req, res, next) => {
   res.sendFile(
-    path.join(__dirname, 'resources', 'public', 'assets', 'assetlinks.json'),
+    path.join(
+      __dirname,
+      '..',
+      'resources',
+      'public',
+      'assets',
+      'assetlinks.json',
+    ),
   );
 });
 

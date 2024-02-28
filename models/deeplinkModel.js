@@ -61,7 +61,9 @@ const deeplinkSchema = new mongoose.Schema(
         default: false,
       },
       packageId: String,
+      // TODO - Maybe can removed
       redirectURL: String,
+      customStoreListingId: String,
     },
     iosRedirectSettings: {
       redirectURL: String,

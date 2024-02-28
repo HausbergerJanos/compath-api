@@ -5,7 +5,6 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xssClean = require('xss-clean');
 const hpp = require('hpp');
-const cors = require('cors');
 
 const path = require('path');
 const AppError = require('./utils/appError');
@@ -26,28 +25,10 @@ app.use(express.static(path.join(__dirname, 'resources')));
 // Set security HTTP records
 app.use(helmet());
 
-// app.use(
-//   cors({
-//     methods: 'GET',
-//     origin: function (origin, callback) {
-//       if (process.env.NODE_ENV === 'development') {
-//         callback(null, true);
-//       } else if (/\.compath\.link$/.test(origin)) {
-//         // Origin ends with ".compath.link
-//         callback(null, true);
-//       } else {
-//         callback(new Error('Not allowed by CORS'));
-//       }
-//     },
-//   }),
-// );
-
 // Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
-
-//app.use(cors({ origin: 'http://127.0.0.1:5500' }));
 
 // Limit requests from same IP
 app.set('trust proxy', 1);
@@ -78,31 +59,8 @@ app.use(
   }),
 );
 
-// Test middleware
-app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString();
-  //console.log(req.headers);
-  next();
-});
-
 // 2) ROUTES
 app.use('/', redirectRouter);
-
-app.get('/.well-known/assetlinks.json', (req, res) => {
-  // Itt add meg a JSON fájl elérési útját
-  res.sendFile(
-    path.join(
-      __dirname,
-      'resources',
-      'aws',
-      's3',
-      'redirect_client',
-      'templates',
-      '.well-known',
-      'assetlinks.json',
-    ),
-  );
-});
 
 app.use('/api/v1/projects', projectRouter);
 app.use('/api/v1/deeplinks', deeplinkRouter);

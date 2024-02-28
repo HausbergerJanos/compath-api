@@ -1,3 +1,4 @@
+const path = require('path');
 const Deeplink = require('../models/deeplinkModel');
 const Project = require('../models/projectModel');
 const catchAsync = require('../utils/catchAsync');
@@ -54,4 +55,10 @@ exports.getRedirectDestination = catchAsync(async (req, res, next) => {
     deeplink: deeplink,
     redirectURL: redirectURL,
   });
+});
+
+exports.getAssetlinks = catchAsync(async (req, res, next) => {
+  res.sendFile(
+    path.join(__dirname, 'resources', 'public', 'assets', 'assetlinks.json'),
+  );
 });

@@ -7,4 +7,8 @@ const router = express.Router({ mergeParams: true });
 router.route('/').get(redirectController.getRedirectDestination);
 router.route('/:alias').get(redirectController.getRedirectDestination);
 
+router
+  .route('/.well-known/assetlinks.json')
+  .get(redirectController.getAssetlinks);
+
 module.exports = router;

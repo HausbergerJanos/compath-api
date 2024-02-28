@@ -46,7 +46,6 @@ exports.getRedirectDestination = catchAsync(async (req, res, next) => {
     req.query,
   );
 
-  console.log(deeplink);
   res.status(200).render('base', {
     project: currentProject,
     alias: req.params.alias,

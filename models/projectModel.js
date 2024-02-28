@@ -30,18 +30,14 @@ const projectSchema = new mongoose.Schema(
       required: [true, 'A project must have a default redirect URL!'],
     },
     redirectClientMeta: {
-      bucketName: String,
-      cloudFrontId: String,
-      cloudFrontDomain: String,
-      domain: String,
-    },
-    compathDomain: {
-      type: String,
-      unique: true,
-    },
-    domain: {
-      type: String,
-      unique: true,
+      compathDomain: {
+        type: String,
+        unique: true,
+      },
+      domain: {
+        type: String,
+        unique: true,
+      },
     },
   },
   {

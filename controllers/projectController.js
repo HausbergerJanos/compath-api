@@ -10,8 +10,10 @@ exports.getAllProjects = factory.getAll(Project);
 
 exports.createProject = catchAsync(async (req, res, next) => {
   const project = await Project.create(req.body);
-  project.compathDomain = `${project.slug}.${process.env.MAIN_DOMAIN}`;
-  project.domain = `${project.slug}.${process.env.MAIN_DOMAIN}`;
+  project.redirectClientMeta = {
+    compathDomain: `${project.slug}.${process.env.MAIN_DOMAIN}`,
+    domain: `${project.slug}.${process.env.MAIN_DOMAIN}`,
+  };
   await project.save();
 
   await cloudProvider.createAndDeployRedirectClient(project);

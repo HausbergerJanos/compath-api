@@ -42,7 +42,8 @@ exports.getRedirectDestination = catchAsync(async (req, res, next) => {
     };
   }
 
-  const clientPlatform = detectClientPlatform(req);
+  //const clientPlatform = detectClientPlatform(req);
+  const clientPlatform = 'android';
 
   const redirectURL = urlFactory.buildRedirectUrl(
     deeplink,

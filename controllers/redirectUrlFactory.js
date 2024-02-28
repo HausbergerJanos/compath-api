@@ -12,7 +12,12 @@ const createBaseRedirectUrl = (baseUrl, alias, dynamicParams) => {
 };
 
 const createPlayStoreUrl = (deeplink, dynamicParams) => {
-  const basePlayStoreUrl = `https://play.google.com/store/apps/details?id=${deeplink.androidRedirectSettings.packageId}&referrer=`;
+  let basePlayStoreUrl = `https://play.google.com/store/apps/details?id=${deeplink.androidRedirectSettings.packageId}`;
+
+  if (deeplink.androidRedirectSettings.customStoreListingId) {
+    basePlayStoreUrl += `&listing=${deeplink.androidRedirectSettings.customStoreListingId}`;
+  }
+  basePlayStoreUrl += `&referrer=`;
 
   const queryParams = Object.keys(dynamicParams)
     .map((key) => `${key}=${dynamicParams[key]}`)
@@ -44,6 +49,7 @@ exports.buildRedirectUrl = (deeplink, platform, dynamicParams) => {
 };
 
 /**
+ * // TODO - Maybe not needed.
  * If mobil app already installed, and we want to navigate out the user from the mobil app.
  * The link will open inside a WebView which launched from the mobile SDK.
  * @param deeplink

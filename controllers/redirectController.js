@@ -4,19 +4,23 @@ const Project = require('../models/projectModel');
 const catchAsync = require('../utils/catchAsync');
 const urlFactory = require('./redirectUrlFactory');
 const { detectClientPlatform } = require('../utils/userAgentUtils');
+const AppError = require('../utils/appError');
 
 exports.getRedirectDestination = catchAsync(async (req, res, next) => {
+  console.log('Bingoo');
   let currentProject;
   if (req.params.projectId) {
     currentProject = await Project.findById(req.params.projectId);
   } else {
     currentProject = await Project.findOne({
-      domain: req.host,
+      'redirectClientMeta.domain': req.host,
     });
   }
 
   if (!currentProject) {
-    return next();
+    return next(
+      new AppError('No domain found with that project name or id', 404),
+    );
   }
 
   let deeplink = await Deeplink.findOne({
@@ -61,4 +65,10 @@ exports.getAssetlinks = catchAsync(async (req, res, next) => {
   res.sendFile(
     path.join(__dirname, 'resources', 'public', 'assets', 'assetlinks.json'),
   );
+});
+
+exports.test = catchAsync(async (req, res, next) => {
+  res.status(200).json({
+    message: 'success',
+  });
 });

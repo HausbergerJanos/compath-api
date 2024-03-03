@@ -12,7 +12,7 @@ exports.getRedirectDestination = catchAsync(async (req, res, next) => {
     currentProject = await Project.findById(req.params.projectId);
   } else {
     currentProject = await Project.findOne({
-      'redirectClientMeta.domain': req.host,
+      domain: req.host,
     });
   }
 

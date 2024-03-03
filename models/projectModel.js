@@ -29,15 +29,13 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A project must have a default redirect URL!'],
     },
-    redirectClientMeta: {
-      compathDomain: {
-        type: String,
-        unique: true,
-      },
-      domain: {
-        type: String,
-        unique: true,
-      },
+    compathDomain: {
+      type: String,
+      unique: true,
+    },
+    domain: {
+      type: String,
+      unique: true,
     },
   },
   {
@@ -53,7 +51,10 @@ const projectSchema = new mongoose.Schema(
 // DOCUMENT MIDDLEWARE
 // Runs before .create() and .save()
 projectSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
+  const projectSlug = slugify(this.name, { lower: true });
+  this.slug = projectSlug;
+  this.compathDomain = `${projectSlug}.${process.env.MAIN_DOMAIN}`;
+  this.domain = `${projectSlug}.${process.env.MAIN_DOMAIN}`;
   next();
 });
 

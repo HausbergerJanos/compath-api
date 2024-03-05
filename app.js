@@ -12,6 +12,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const projectRouter = require('./routes/projectRoutes');
 const deeplinkRouter = require('./routes/deeplinkRoutes');
 const redirectRouter = require('./routes/redirectRoutes');
+const userRouter = require('./routes/userRoutes');
 
 const app = express();
 
@@ -65,6 +66,7 @@ app.use('/', redirectRouter);
 app.use('/api/v1/projects', projectRouter);
 app.use('/api/v1/deeplinks', deeplinkRouter);
 app.use('/api/v1/redirects', redirectRouter);
+app.use('/api/v1/users', userRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl}`, 404));

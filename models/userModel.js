@@ -35,6 +35,19 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  projects: [
+    {
+      project: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Project',
+      },
+      role: {
+        type: String,
+        enum: ['viewer', 'admin', 'owner'],
+        required: true,
+      },
+    },
+  ],
 });
 
 userSchema.pre('save', async function (next) {

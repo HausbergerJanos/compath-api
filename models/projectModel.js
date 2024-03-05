@@ -37,6 +37,12 @@ const projectSchema = new mongoose.Schema(
       type: String,
       unique: true,
     },
+    members: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: {

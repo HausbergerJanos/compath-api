@@ -2,6 +2,7 @@ const express = require('express');
 const deeplinkRouter = require('./deeplinkRoutes');
 const redirectRouter = require('./redirectRoutes');
 const projectController = require('../controllers/projectController');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
@@ -17,7 +18,7 @@ router.use('/:projectId/redirects', redirectRouter);
 router
   .route('/')
   .get(projectController.getAllProjects)
-  .post(projectController.createProject);
+  .post(authController.protect, projectController.createProject);
 
 // This route is final
 router.route('/:id').delete(projectController.deleteProject);

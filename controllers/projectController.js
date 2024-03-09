@@ -7,7 +7,13 @@ const container = require('../di/module');
 
 const { cloudProvider } = container.cradle;
 
-exports.getAllProjects = factory.getAll(Project);
+exports.getAllProjects = factory.getAll(Project, (req) => {
+  // TODO - Handle super admins here. He need access all projects
+  const projectIds = req.user.projects.map(
+    (projectWithRole) => projectWithRole.project,
+  );
+  return { _id: { $in: projectIds } };
+});
 
 exports.createProject = catchAsync(async (req, res, next) => {
   const project = await Project.create({

@@ -17,7 +17,7 @@ router.use('/:projectId/redirects', redirectRouter);
 // These routes are final
 router
   .route('/')
-  .get(projectController.getAllProjects)
+  .get(authController.protect, projectController.getAllProjects)
   .post(authController.protect, projectController.createProject);
 
 // This route is final

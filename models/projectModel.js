@@ -9,8 +9,8 @@ const projectSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       maxlength: [
-        40,
-        'A project name must have less or equal then 40 characters',
+        20,
+        'A project name must have less or equal then 20 characters',
       ],
       minlength: [
         3,
@@ -27,7 +27,6 @@ const projectSchema = new mongoose.Schema(
     },
     defaultRedirectURL: {
       type: String,
-      required: [true, 'A project must have a default redirect URL!'],
     },
     compathDomain: {
       type: String,

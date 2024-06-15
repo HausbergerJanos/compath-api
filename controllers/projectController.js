@@ -18,10 +18,10 @@ exports.getAllProjects = factory.getAll(Project, (req) => {
 exports.createProject = catchAsync(async (req, res, next) => {
   const project = await Project.create({
     name: req.body.name,
-    androidClient: {
-      packageId: req.body.androidClient.packageId,
-    },
-    defaultRedirectURL: req.body.defaultRedirectURL,
+    // androidClient: {
+    //   packageId: req.body.androidClient.packageId,
+    // },
+    // defaultRedirectURL: req.body.defaultRedirectURL,
     members: [req.user.id],
   });
   await cloudProvider.createAndDeployRedirectClient(project);

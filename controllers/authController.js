@@ -103,7 +103,11 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on posted email
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    return next(new AppError('There is no user with this email address.', 404));
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to email!',
+    });
+    //return next(new AppError('There is no user with this email address.', 404));
   }
 
   // 2) Generate the random reset token
@@ -127,6 +131,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       message: 'Token sent to email!',
+      token: resetToken, //REMOVE IT FROM PROD, JUST FOR TESTING
     });
   } catch (err) {
     user.passwordResetToken = undefined;

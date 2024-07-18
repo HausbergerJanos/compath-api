@@ -42,6 +42,10 @@ const projectSchema = new mongoose.Schema(
         ref: 'User',
       },
     ],
+    contactEmail: {
+      type: String,
+      required: [true, 'A project must have a contact email!'],
+    },
   },
   {
     toJSON: {

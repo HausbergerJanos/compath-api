@@ -15,7 +15,15 @@ exports.getAllProjects = factory.getAll(Project, (req) => {
   return { _id: { $in: projectIds } };
 });
 
+exports.getProject = factory.getOne(Project, null, true);
+
 exports.createProject = catchAsync(async (req, res, next) => {
+  const { user } = req;
+  if (!user || !user.email) {
+    return next(
+      new AppError('User email is required to create a project', 400),
+    );
+  }
   const project = await Project.create({
     name: req.body.name,
     // androidClient: {
@@ -23,6 +31,7 @@ exports.createProject = catchAsync(async (req, res, next) => {
     // },
     // defaultRedirectURL: req.body.defaultRedirectURL,
     members: [req.user.id],
+    contactEmail: user.email,
   });
   await cloudProvider.createAndDeployRedirectClient(project);
 
@@ -38,11 +47,27 @@ exports.createProject = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteProject = catchAsync(async (req, res, next) => {
-  const project = await Project.findByIdAndDelete(req.params.id);
+  const project = await Project.findById(req.params.id);
 
   if (!project) {
     return next(new AppError('No project found with that id', 404));
   }
+
+  const isMember = project.members.some(
+    (member) => member.toString() === req.user.id,
+  );
+  if (!isMember) {
+    return next(
+      new AppError('You do not have access to delete this project', 403),
+    );
+  }
+
+  await Project.findByIdAndDelete(req.params.id);
+
+  await User.updateOne(
+    { _id: req.user.id },
+    { $pull: { projects: { project: req.params.id } } },
+  );
 
   await cloudProvider.deleteRedirectClient(project);
 

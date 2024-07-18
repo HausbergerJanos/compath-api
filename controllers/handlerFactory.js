@@ -45,7 +45,7 @@ exports.createOne = (Model) =>
     });
   });
 
-exports.getOne = (Model, popOptions) =>
+exports.getOne = (Model, popOptions, checkMembership = false) =>
   catchAsync(async (req, res, next) => {
     let query = Model.findById(req.params.id);
     if (popOptions) query = query.populate(popOptions);
@@ -53,6 +53,17 @@ exports.getOne = (Model, popOptions) =>
 
     if (!doc) {
       return next(new AppError('No document found with that id', 404));
+    }
+
+    if (checkMembership) {
+      const isMember = doc.members.some(
+        (member) => member.toString() === req.user.id,
+      );
+      if (!isMember) {
+        return next(
+          new AppError('You do not have access to this project', 403),
+        );
+      }
     }
 
     // CREATE RESPONSE KEY

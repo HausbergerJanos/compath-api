@@ -20,7 +20,10 @@ router
   .get(authController.protect, projectController.getAllProjects)
   .post(authController.protect, projectController.createProject);
 
-// This route is final
-router.route('/:id').delete(projectController.deleteProject);
+// These routes are final
+router
+  .route('/:id')
+  .get(authController.protect, projectController.getProject)
+  .delete(authController.protect, projectController.deleteProject);
 
 module.exports = router;

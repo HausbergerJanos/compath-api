@@ -46,6 +46,48 @@ exports.createProject = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.updateProject = catchAsync(async (req, res, next) => {
+  const project = await Project.findById(req.params.id);
+
+  if (!project) {
+    return next(new AppError('No project found with that id', 404));
+  }
+
+  const isMember = project.members.some(
+    (member) => member.toString() === req.user.id,
+  );
+  if (!isMember) {
+    return next(
+      new AppError('You do not have access to modify this project', 403),
+    );
+  }
+
+  // Filter out only the allowed fields from the request body
+  const allowedFields = ['name', 'contactEmail'];
+  const updates = Object.keys(req.body).reduce((acc, key) => {
+    if (allowedFields.includes(key)) {
+      acc[key] = req.body[key];
+    }
+    return acc;
+  }, {});
+
+  const updatedProject = await Project.findByIdAndUpdate(
+    req.params.id,
+    updates,
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      project: updatedProject,
+    },
+  });
+});
+
 exports.deleteProject = catchAsync(async (req, res, next) => {
   const project = await Project.findById(req.params.id);
 

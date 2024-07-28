@@ -24,6 +24,7 @@ router
 router
   .route('/:id')
   .get(authController.protect, projectController.getProject)
+  .patch(authController.protect, projectController.updateProject)
   .delete(authController.protect, projectController.deleteProject);
 
 module.exports = router;

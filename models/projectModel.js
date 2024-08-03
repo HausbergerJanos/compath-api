@@ -25,6 +25,7 @@ const projectSchema = new mongoose.Schema(
     androidClient: {
       packageId: String,
     },
+    // TODO - Delete
     defaultRedirectURL: {
       type: String,
     },
@@ -45,6 +46,19 @@ const projectSchema = new mongoose.Schema(
     contactEmail: {
       type: String,
       required: [true, 'A project must have a contact email!'],
+    },
+    redirection: {
+      defaultRedirectURL: String,
+      androidClient: {
+        webRedirectURL: String,
+        packageID: String,
+        isNavigateToPlayStore: Boolean,
+      },
+      iosClient: {
+        webRedirectURL: String,
+        bundleID: String,
+        isNavigateToAppStore: Boolean,
+      },
     },
   },
   {

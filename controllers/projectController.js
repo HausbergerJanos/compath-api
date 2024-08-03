@@ -7,6 +7,16 @@ const container = require('../di/module');
 
 const { cloudProvider } = container.cradle;
 
+function deepMerge(target, source) {
+  for (const key of Object.keys(source)) {
+    if (source[key] instanceof Object && key in target) {
+      Object.assign(source[key], deepMerge(target[key], source[key]));
+    }
+  }
+  Object.assign(target || {}, source);
+  return target;
+}
+
 exports.getAllProjects = factory.getAll(Project, (req) => {
   // TODO - Handle super admins here. He need access all projects
   const projectIds = req.user.projects.map(
@@ -63,7 +73,7 @@ exports.updateProject = catchAsync(async (req, res, next) => {
   }
 
   // Filter out only the allowed fields from the request body
-  const allowedFields = ['name', 'contactEmail'];
+  const allowedFields = ['name', 'contactEmail', 'redirection'];
   const updates = Object.keys(req.body).reduce((acc, key) => {
     if (allowedFields.includes(key)) {
       acc[key] = req.body[key];
@@ -71,9 +81,11 @@ exports.updateProject = catchAsync(async (req, res, next) => {
     return acc;
   }, {});
 
+  const updatedProjectData = deepMerge(project.toObject(), updates);
+
   const updatedProject = await Project.findByIdAndUpdate(
     req.params.id,
-    updates,
+    updatedProjectData,
     {
       new: true,
       runValidators: true,

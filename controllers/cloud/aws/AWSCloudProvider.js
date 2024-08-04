@@ -5,15 +5,15 @@ const {
   deleteBucket,
 } = require('./s3Controller');
 const {
-  createRedirectClientFiles,
+  createAssetLinksFile,
   uploadRedirectClientFiles,
   deleteTemporaryLocaleRedirectClientFiles,
 } = require('./awsResourceManager');
 const { createARecord, deleteARecord } = require('./route53Controller');
 
 class AWSCloudProvider extends CloudProvider {
-  async #copyRedirectClientFilesIntoBucket(project) {
-    await createRedirectClientFiles(project);
+  async #copyAssetLinksIntoBucket(project, packageID, sha256Certificate) {
+    await createAssetLinksFile(project, packageID, sha256Certificate);
     await uploadRedirectClientFiles(project);
     await deleteTemporaryLocaleRedirectClientFiles(project);
   }
@@ -28,8 +28,11 @@ class AWSCloudProvider extends CloudProvider {
 
   async createAndDeployRedirectClient(project) {
     await this.#initializeBucket(project);
-    await this.#copyRedirectClientFilesIntoBucket(project);
     await createARecord(project);
+  }
+
+  async createOrUpdateAssetLinks(project, packageID, sha256Certificate) {
+    await this.#copyAssetLinksIntoBucket(project, packageID, sha256Certificate);
   }
 
   async deleteRedirectClient(project) {

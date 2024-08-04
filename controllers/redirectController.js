@@ -1,10 +1,10 @@
-const path = require('path');
 const Deeplink = require('../models/deeplinkModel');
 const Project = require('../models/projectModel');
 const catchAsync = require('../utils/catchAsync');
 const urlFactory = require('./redirectUrlFactory');
 const { detectClientPlatform } = require('../utils/userAgentUtils');
 const AppError = require('../utils/appError');
+const { getAssetFromS3 } = require('./cloud/aws/s3Controller');
 
 exports.getRedirectDestination = catchAsync(async (req, res, next) => {
   let currentProject;
@@ -61,16 +61,31 @@ exports.getRedirectDestination = catchAsync(async (req, res, next) => {
 });
 
 exports.getAssetlinks = catchAsync(async (req, res, next) => {
-  res.sendFile(
-    path.join(
-      __dirname,
-      '..',
-      'resources',
-      'public',
-      'assets',
-      'assetlinks.json',
-    ),
-  );
+  let currentProject;
+  if (req.query.projectId) {
+    currentProject = await Project.findById(req.query.projectId);
+  } else {
+    currentProject = await Project.findOne({
+      domain: req.hostname,
+    });
+  }
+
+  if (!currentProject) {
+    return next(
+      new AppError('No domain found with that project name or id', 404),
+    );
+  }
+
+  const { bucketName } = currentProject.redirection;
+  const key = 'assetlinks.json'; // Replace with the path to your file
+
+  const fileStream = await getAssetFromS3(bucketName, key);
+
+  fileStream.pipe(res).on('error', () => {
+    res.status(500).send('Error retrieving the file');
+  });
+
+  res.setHeader('Content-Type', 'application/json');
 });
 
 exports.test = catchAsync(async (req, res, next) => {

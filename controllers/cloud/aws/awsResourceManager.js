@@ -2,7 +2,21 @@ const fs = require('fs-extra');
 const path = require('path');
 const { uploadDirectory } = require('./s3Controller');
 
-exports.createRedirectClientFiles = async (project) => {
+function replaceValue(config, oldValue, newValue) {
+  Object.keys(config).forEach((key) => {
+    if (typeof config[key] === 'string') {
+      config[key] = config[key].replace(oldValue, newValue);
+    } else if (typeof config[key] === 'object' && config[key] !== null) {
+      replaceValue(config[key], oldValue, newValue);
+    }
+  });
+}
+
+exports.createAssetLinksFile = async (
+  project,
+  packageID,
+  sha256Certificate,
+) => {
   const templateSourceDir = path.join(
     'resources',
     'aws',
@@ -23,19 +37,22 @@ exports.createRedirectClientFiles = async (project) => {
   await fs.ensureDir(temporaryStorageDir);
   await fs.copy(templateSourceDir, temporaryStorageDir);
 
-  const configFile = path.join(temporaryStorageDir, 'config.js');
-  let configContent = await fs.readFile(configFile, 'utf8');
+  const assetLinksFilePath = path.join(temporaryStorageDir, 'assetlinks.json');
+  const assetLinks = await fs.readJson(assetLinksFilePath);
 
-  configContent = configContent.replace(
-    /const projectId = .+;/,
-    `const projectId = "${project._id}";`,
-  );
-  configContent = configContent.replace(
-    /const projectName = .+;/,
-    `const projectName = "${project.name}";`,
+  replaceValue(
+    assetLinks,
+    '{{package_id}}',
+    packageID || project.redirection.androidClient.packageID,
   );
 
-  await fs.writeFile(configFile, configContent);
+  replaceValue(
+    assetLinks,
+    '{{sha_256}}',
+    sha256Certificate || project.redirection.androidClient.sha256Certificate,
+  );
+
+  await fs.writeJson(assetLinksFilePath, assetLinks, { spaces: 2 });
 };
 
 exports.uploadRedirectClientFiles = async (project) => {
@@ -64,16 +81,6 @@ exports.deleteTemporaryLocaleRedirectClientFiles = async (project) => {
 
   await fs.remove(temporaryStorageDir);
 };
-
-function replaceValue(config, oldValue, newValue) {
-  Object.keys(config).forEach((key) => {
-    if (typeof config[key] === 'string') {
-      config[key] = config[key].replace(oldValue, newValue);
-    } else if (typeof config[key] === 'object' && config[key] !== null) {
-      replaceValue(config[key], oldValue, newValue);
-    }
-  });
-}
 
 exports.createRoute53RecordSettings = async (action, project) => {
   const recordSettingsPath = path.join(

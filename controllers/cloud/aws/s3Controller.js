@@ -8,10 +8,12 @@ const {
   ListObjectsV2Command,
   DeleteObjectCommand,
   DeleteBucketCommand,
+  GetObjectCommand,
 } = require('@aws-sdk/client-s3');
 const fs = require('fs-extra');
 const path = require('path');
 const mime = require('mime-types');
+const { PassThrough, pipeline } = require('node:stream');
 
 const s3Client = new S3Client({
   region: process.env.DEFAULT_REGION,
@@ -147,6 +149,20 @@ exports.uploadDirectory = async function (bucketName, dirPath, prefix = '') {
       );
     }
   }
+};
+
+exports.getAssetFromS3 = async function (bucketName, key) {
+  const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
+  const s3Response = await s3Client.send(command);
+
+  const passThrough = new PassThrough();
+  pipeline(s3Response.Body, passThrough, (err) => {
+    if (err) {
+      throw new Error('Error retrieving the file');
+    }
+  });
+
+  return passThrough;
 };
 
 exports.deleteBucket = async (bucketName) => {

@@ -88,6 +88,17 @@ exports.updateProject = catchAsync(async (req, res, next) => {
     },
   );
 
+  if (
+    updates.redirection.androidClient.sha256Certificate ||
+    updates.redirection.androidClient.packageID
+  ) {
+    await cloudProvider.createOrUpdateAssetLinks(
+      project,
+      updates.redirection.androidClient.packageID,
+      updates.redirection.androidClient.sha256Certificate,
+    );
+  }
+
   res.status(200).json({
     status: 'success',
     data: {

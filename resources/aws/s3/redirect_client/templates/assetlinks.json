@@ -1,3 +1,18 @@
-{
-  "relation": "HihiHaha Kacajalamusz"
-}
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "{{package_id}}",
+      "sha256_cert_fingerprints": ["{{sha_256}}"]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "{{package_id}}",
+      "sha256_cert_fingerprints": ["{{sha_256}}"]
+    }
+  }
+]

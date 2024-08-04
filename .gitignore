@@ -79,3 +79,4 @@ package-lock.json
 /.idea/jsLibraryMappings.xml
 /.idea/watcherTasks.xml
 .idea/api.iml
+/resources/aws/s3/redirect_client/temporary/

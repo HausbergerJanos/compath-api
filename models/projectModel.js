@@ -42,6 +42,7 @@ const projectSchema = new mongoose.Schema(
     },
     redirection: {
       defaultRedirectURL: String,
+      bucketName: String,
       androidClient: {
         webRedirectURL: String,
         packageID: String,

@@ -22,13 +22,6 @@ const projectSchema = new mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
-    androidClient: {
-      packageId: String,
-    },
-    // TODO - Delete
-    defaultRedirectURL: {
-      type: String,
-    },
     compathDomain: {
       type: String,
       unique: true,
@@ -53,6 +46,7 @@ const projectSchema = new mongoose.Schema(
         webRedirectURL: String,
         packageID: String,
         isNavigateToPlayStore: Boolean,
+        sha256Certificate: String,
       },
       iosClient: {
         webRedirectURL: String,

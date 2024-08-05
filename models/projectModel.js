@@ -40,19 +40,22 @@ const projectSchema = new mongoose.Schema(
       type: String,
       required: [true, 'A project must have a contact email!'],
     },
-    redirection: {
-      defaultRedirectURL: String,
+    redirectConfig: {
+      defaultURL: String,
       bucketName: String,
       androidClient: {
-        webRedirectURL: String,
+        webURL: String,
         packageID: String,
-        isNavigateToPlayStore: Boolean,
+        navigateToPlayStore: Boolean,
         sha256Certificate: String,
       },
       iosClient: {
-        webRedirectURL: String,
+        webURL: String,
         bundleID: String,
-        isNavigateToAppStore: Boolean,
+        navigateToAppStore: Boolean,
+      },
+      desktopClient: {
+        desktopURL: String,
       },
     },
   },

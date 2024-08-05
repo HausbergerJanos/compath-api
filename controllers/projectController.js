@@ -69,7 +69,7 @@ exports.updateProject = catchAsync(async (req, res, next) => {
   }
 
   // Filter out only the allowed fields from the request body
-  const allowedFields = ['name', 'contactEmail', 'redirection'];
+  const allowedFields = ['name', 'contactEmail', 'redirectConfig'];
   const updates = Object.keys(req.body).reduce((acc, key) => {
     if (allowedFields.includes(key)) {
       acc[key] = req.body[key];
@@ -89,13 +89,13 @@ exports.updateProject = catchAsync(async (req, res, next) => {
   );
 
   if (
-    updates.redirection.androidClient.sha256Certificate ||
-    updates.redirection.androidClient.packageID
+    updates.redirectConfig.androidClient.sha256Certificate ||
+    updates.redirectConfig.androidClient.packageID
   ) {
     await cloudProvider.createOrUpdateAssetLinks(
       project,
-      updates.redirection.androidClient.packageID,
-      updates.redirection.androidClient.sha256Certificate,
+      updates.redirectConfig.androidClient.packageID,
+      updates.redirectConfig.androidClient.sha256Certificate,
     );
   }
 

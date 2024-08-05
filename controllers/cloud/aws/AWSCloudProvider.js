@@ -21,7 +21,7 @@ class AWSCloudProvider extends CloudProvider {
   async #initializeBucket(project) {
     const bucketName = await createBucket(project.slug);
     await setBucketPublic(bucketName);
-    project.redirection.bucketName = bucketName;
+    project.redirectConfig.bucketName = bucketName;
     //project.redirectClientMeta.domain = `${project.slug}.compath.link`;
     await project.save();
   }
@@ -36,7 +36,7 @@ class AWSCloudProvider extends CloudProvider {
   }
 
   async deleteRedirectClient(project) {
-    await deleteBucket(project.redirection.bucketName);
+    await deleteBucket(project.redirectConfig.bucketName);
     await deleteARecord(project);
   }
 }

@@ -31,7 +31,7 @@ exports.createAssetLinksFile = async (
     's3',
     'redirect_client',
     'temporary',
-    project.redirection.bucketName,
+    project.redirectConfig.bucketName,
   );
 
   await fs.ensureDir(temporaryStorageDir);
@@ -43,20 +43,20 @@ exports.createAssetLinksFile = async (
   replaceValue(
     assetLinks,
     '{{package_id}}',
-    packageID || project.redirection.androidClient.packageID,
+    packageID || project.redirectConfig.androidClient.packageID,
   );
 
   replaceValue(
     assetLinks,
     '{{sha_256}}',
-    sha256Certificate || project.redirection.androidClient.sha256Certificate,
+    sha256Certificate || project.redirectConfig.androidClient.sha256Certificate,
   );
 
   await fs.writeJson(assetLinksFilePath, assetLinks, { spaces: 2 });
 };
 
 exports.uploadRedirectClientFiles = async (project) => {
-  const { bucketName } = project.redirection;
+  const { bucketName } = project.redirectConfig;
   const temporaryStorageDir = path.join(
     'resources',
     'aws',
@@ -76,7 +76,7 @@ exports.deleteTemporaryLocaleRedirectClientFiles = async (project) => {
     's3',
     'redirect_client',
     'temporary',
-    project.redirection.bucketName,
+    project.redirectConfig.bucketName,
   );
 
   await fs.remove(temporaryStorageDir);

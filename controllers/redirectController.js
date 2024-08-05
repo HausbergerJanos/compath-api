@@ -76,7 +76,7 @@ exports.getAssetlinks = catchAsync(async (req, res, next) => {
     );
   }
 
-  const { bucketName } = currentProject.redirection;
+  const { bucketName } = currentProject.redirectConfig;
   const key = 'assetlinks.json'; // Replace with the path to your file
 
   const fileStream = await getAssetFromS3(bucketName, key);

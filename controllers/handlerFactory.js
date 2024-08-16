@@ -81,20 +81,23 @@ exports.getAll = (Model, filterFunction = (req) => ({})) =>
   catchAsync(async (req, res, next) => {
     // To allow for nested GET
     const filter = { ...filterFunction(req) };
-    /* const keyword = req.query.keyword || ''; */
+    const keyword = req.query.keyword || '';
 
     // EXECUTE QUERY
 
     // Add keyword search to the filter object
-    /* if (keyword) {
-      filter.$text = { $search: keyword };
-    } */
+    if (keyword) {
+      filter.$or = [
+        { alias: { $regex: keyword, $options: 'i' } },
+        { title: { $regex: keyword, $options: 'i' } },
+        { description: { $regex: keyword, $options: 'i' } },
+      ];
+    }
 
     // Count total documents that match the filter
     const totalCount = await Model.countDocuments(filter);
 
     const features = new APIFeatures(Model.find(filter), req.query)
-      .filter()
       .sort()
       .limitFields()
       .paginate();

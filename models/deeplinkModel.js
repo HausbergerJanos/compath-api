@@ -114,6 +114,7 @@ deeplinkSchema.virtual('fullLink').get(function () {
 
 deeplinkSchema.index({ project: 1 });
 deeplinkSchema.index({ alias: 1, project: 1 }, { unique: true });
+deeplinkSchema.index({ alias: 'text', title: 'text', description: 'text' });
 
 // DOCUMENT MIDDLEWARE
 // Runs before .create() and .save()
